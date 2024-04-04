@@ -41,7 +41,7 @@ class _TabsScreenState extends State<TabsScreen> {
         onDelete: widget.onDelete,
         onSave: widget.onSave,
       ),
-      AvaliacoesFisica(),
+      AvaliacoesFisica(aluno: widget.aluno),
       FichaTreino()
     ];
   }

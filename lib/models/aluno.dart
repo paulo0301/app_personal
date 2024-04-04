@@ -6,7 +6,7 @@ class Aluno {
   String nome;
   String email;
   DateTime dataNascimento;
-  List<AvaliacaoFisica> avaliacoesFisicas;
+  List<AvaliacaoFisica> avaliacoesFisicas = [];
   late FichaDeTreino fichaTreino;
 
   Aluno({
@@ -14,7 +14,10 @@ class Aluno {
     required this.nome,
     required this.email,
     required this.dataNascimento,
-    this.avaliacoesFisicas = const [],
     required this.fichaTreino,
   });
+
+  void adicionarAvalicao(AvaliacaoFisica avaliacaoFisica) {
+    this.avaliacoesFisicas.add(avaliacaoFisica);
+  }
 }
