@@ -21,16 +21,14 @@ class _HomePageState extends State<HomePage> {
       nome: "Paulo Daniel",
       email: "pdaniel@gmail.com",
       dataNascimento: DateTime(2003, 01, 03),
-      fichaTreino: FichaDeTreino(
-          id: ('ft${Random().nextInt(9999)}'), titulo: "Ficha 01"),
+      fichaTreino: FichaDeTreino(id: ('ft${Random().nextInt(9999)}')),
     ),
     Aluno(
       id: 'a2',
       nome: "Lucas Albert",
       email: "lulubert@gmail.com",
       dataNascimento: DateTime(2006, 05, 10),
-      fichaTreino: FichaDeTreino(
-          id: ('ft${Random().nextInt(9999)}'), titulo: "Ficha 01"),
+      fichaTreino: FichaDeTreino(id: ('ft${Random().nextInt(9999)}')),
     ),
   ];
 
@@ -63,7 +61,7 @@ class _HomePageState extends State<HomePage> {
 
   _addAluno(String nome, String email, DateTime dataNascimento) {
     FichaDeTreino fichaDeTreino =
-        FichaDeTreino(id: ('ft${Random().nextInt(9999)}'), titulo: "Ficha 01");
+        FichaDeTreino(id: ('ft${Random().nextInt(9999)}'));
     Aluno newAluno = Aluno(
         id: ('a${Random().nextInt(9999)}'),
         nome: nome,

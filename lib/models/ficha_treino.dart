@@ -3,12 +3,14 @@ import 'package:app_personal/models/treino.dart';
 
 class FichaDeTreino {
   final String id;
-  final String titulo;
   late final Aluno aluno;
-  final List<Treino> treinos = [];
+  List<Treino> treinos = [];
 
   FichaDeTreino({
     required this.id,
-    required this.titulo,
   });
+
+  void adicionarTreino(Treino treino) {
+    this.treinos.add(treino);
+  }
 }

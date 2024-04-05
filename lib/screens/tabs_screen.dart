@@ -42,7 +42,7 @@ class _TabsScreenState extends State<TabsScreen> {
         onSave: widget.onSave,
       ),
       AvaliacoesFisica(aluno: widget.aluno),
-      FichaTreino()
+      FichaTreino(fichaDeTreino: widget.aluno.fichaTreino)
     ];
   }
 
