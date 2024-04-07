@@ -93,7 +93,7 @@ class _dadosTreinoState extends State<dadosTreino> {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 4, 114, 86),
+        backgroundColor: Color(0XFF085444),
       ),
       body: Container(
         child: Padding(

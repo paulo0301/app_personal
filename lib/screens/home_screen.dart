@@ -50,7 +50,7 @@ class _HomePageState extends State<HomePage> {
         margin: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
         child: ListTile(
           leading: const Image(
-            image: AssetImage("assets/imagem-do-usuario-com-fundo-preto.png"),
+            image: AssetImage("assets/man.png"),
           ),
           title: Text(aluno.nome),
           subtitle: Text(aluno.email),
@@ -94,7 +94,7 @@ class _HomePageState extends State<HomePage> {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 4, 114, 86),
+        backgroundColor: Color(0XFF085444),
       ),
       body: ListView.builder(
         itemCount: alunos.length,

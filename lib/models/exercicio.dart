@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Exercicio {
+class Exercicio{
   final String id;
   final String titulo;
   final int series;

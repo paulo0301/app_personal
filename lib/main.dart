@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:app_personal/models/aluno.dart';
 import 'package:app_personal/models/ficha_treino.dart';
+import 'package:app_personal/screens/exercicios_screen.dart';
 import 'package:app_personal/screens/home_screen.dart';
 import 'package:app_personal/utils/app_routes.dart';
 import 'package:flutter/material.dart';
@@ -39,6 +40,7 @@ class _MyHomePageState extends State<MyHomePage> {
       initialRoute: "/",
       routes: {
         AppRoutes.HOME: (ctx) => HomePage(),
+        AppRoutes.EXERCICIOS: (ctx) => ExerciciosPage(),
       },
     );
   }

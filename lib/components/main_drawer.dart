@@ -34,8 +34,11 @@ class MainDrawer extends StatelessWidget {
           ),
           _createItem(Icons.person_2, 'Alunos',
               () => Navigator.of(context).pushReplacementNamed(AppRoutes.HOME)),
-          _createItem(Icons.settings, 'Exercícios',
-              () => Navigator.of(context).pushReplacementNamed(AppRoutes.HOME))
+          _createItem(
+              Icons.settings,
+              'Exercícios',
+              () => Navigator.of(context)
+                  .pushReplacementNamed(AppRoutes.EXERCICIOS))
         ],
       ),
     );

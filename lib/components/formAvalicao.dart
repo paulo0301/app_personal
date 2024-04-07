@@ -62,7 +62,7 @@ class _formAvaliacaoState extends State<formAvaliacao> {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 4, 114, 86),
+        backgroundColor: Color(0XFF085444),
       ),
       body: Container(
         padding: EdgeInsets.all(30),
@@ -176,7 +176,7 @@ class _formAvaliacaoState extends State<formAvaliacao> {
                 children: [
                   Padding(
                       padding: EdgeInsets.only(top: 10),
-                      child: Text("Perda (CM)")),
+                      child: Text("Quadríceps (CM)")),
                   TextField(
                     controller: _medidaPerdaController,
                     keyboardType:

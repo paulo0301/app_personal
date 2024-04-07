@@ -78,7 +78,7 @@ class _FichaTreinoState extends State<FichaTreino> {
                     onPressed: () {
                       _openFormTreino(context);
                     },
-                    child: Text("Cadastrar nova treino"),
+                    child: Text("Cadastrar novo treino +"),
                   ),
                 ],
               ),

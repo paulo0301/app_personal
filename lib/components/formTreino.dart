@@ -71,7 +71,7 @@ class _formTreinoState extends State<formTreino> {
               color: Colors.white,
             ),
           ),
-          backgroundColor: const Color.fromARGB(255, 4, 114, 86),
+          backgroundColor: Color(0XFF085444),
         ),
         body: Container(
           padding: const EdgeInsets.all(30),

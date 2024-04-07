@@ -28,7 +28,7 @@ class _DetalhesExercicioState extends State<DetalhesExercicio> {
             color: Colors.white,
           ),
         ),
-        backgroundColor: Color.fromARGB(255, 4, 114, 86),
+        backgroundColor: Color(0XFF085444),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
