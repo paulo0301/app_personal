@@ -61,6 +61,31 @@ class _DadosAlunoState extends State<DadosAluno> {
     });
   }
 
+  _confirmarExclusao() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Confirmar exclusão"),
+        content: const Text("Deseja realmente excluir este aluno?"),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("Não"),
+          ),
+          TextButton(
+            onPressed: () {
+              _deleteAluno();
+              Navigator.pop(context);
+            },
+            child: const Text("Sim"),
+          ),
+        ],
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -119,7 +144,7 @@ class _DadosAlunoState extends State<DadosAluno> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     ElevatedButton(
-                      onPressed: _deleteAluno,
+                      onPressed: _confirmarExclusao,
                       style: ButtonStyle(
                         backgroundColor: MaterialStateProperty.all(Colors.red),
                       ),

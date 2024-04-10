@@ -21,9 +21,9 @@ class _TabsScreenState extends State<TabsScreen> {
 
   late List<Widget> _screens = [];
   final List<String> _titles = [
-    "Dados do aluno",
+    "Ficha de treino",
     "Avaliações físicas",
-    "Ficha de treino"
+    "Dados do aluno",
   ];
 
   _selectScreen(int index) {
@@ -36,13 +36,13 @@ class _TabsScreenState extends State<TabsScreen> {
   void initState() {
     super.initState();
     _screens = [
+      FichaTreino(fichaDeTreino: widget.aluno.fichaTreino),
+      AvaliacoesFisica(aluno: widget.aluno),
       DadosAluno(
         aluno: widget.aluno,
         onDelete: widget.onDelete,
         onSave: widget.onSave,
       ),
-      AvaliacoesFisica(aluno: widget.aluno),
-      FichaTreino(fichaDeTreino: widget.aluno.fichaTreino)
     ];
   }
 
@@ -67,13 +67,13 @@ class _TabsScreenState extends State<TabsScreen> {
         backgroundColor: Color.fromARGB(255, 4, 114, 86),
         items: const [
           BottomNavigationBarItem(
-              icon: Icon(Icons.person_2_outlined), label: 'Dados'),
+              icon: Icon(Icons.content_paste_rounded),
+              label: 'Ficha de treino'),
           BottomNavigationBarItem(
               icon: Icon(Icons.design_services_outlined),
               label: 'Avaliação Física'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.content_paste_rounded),
-              label: 'Ficha de treino'),
+              icon: Icon(Icons.person_2_outlined), label: 'Dados'),
         ],
       ),
     );

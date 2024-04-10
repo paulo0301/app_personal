@@ -104,7 +104,7 @@ class _formAvaliacaoState extends State<formAvaliacao> {
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: 10),
-                    child: Text("Altura (CM)"),
+                    child: Text("Altura (M)"),
                   ),
                   TextField(
                     controller: _alturaController,

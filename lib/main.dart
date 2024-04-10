@@ -1,7 +1,3 @@
-import 'dart:math';
-
-import 'package:app_personal/models/aluno.dart';
-import 'package:app_personal/models/ficha_treino.dart';
 import 'package:app_personal/screens/exercicios_screen.dart';
 import 'package:app_personal/screens/home_screen.dart';
 import 'package:app_personal/utils/app_routes.dart';

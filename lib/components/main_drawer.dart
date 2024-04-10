@@ -26,10 +26,10 @@ class MainDrawer extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            height: 80,
+            height: 88,
             width: double.infinity,
             padding: EdgeInsets.all(40),
-            color: Theme.of(context).colorScheme.primary,
+            color: const Color.fromARGB(255, 14, 53, 15),
             alignment: Alignment.bottomRight,
           ),
           _createItem(Icons.person_2, 'Alunos',
