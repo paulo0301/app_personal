@@ -28,6 +28,12 @@ class _ExerciciosPageState extends State<ExerciciosPage> {
     });
   }
 
+  _removeExercicio(String id) {
+    setState(() {
+      lst_exercicios.removeWhere((exercicio) => exercicio.id == id);
+    });
+  }
+
   _filter(String key) {
     List<Exercicio> findExercicio = [];
     if (key.isEmpty) {
@@ -86,14 +92,25 @@ class _ExerciciosPageState extends State<ExerciciosPage> {
               )
             ],
           ),
-          IconButton(
+          Row(children: [
+            IconButton(
+                onPressed: () {
+                  _openDetailExercicio(context, exercicio);
+                },
+                icon: Icon(
+                  Icons.search,
+                  color: Colors.black,
+                )),
+            IconButton(
               onPressed: () {
-                _openDetailExercicio(context, exercicio);
+                _removeExercicio(exercicio.id);
               },
               icon: Icon(
-                Icons.search,
+                Icons.delete,
                 color: Colors.black,
-              ))
+              ),
+            )
+          ])
         ],
       ),
     ));

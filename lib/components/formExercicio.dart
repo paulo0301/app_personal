@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:math';
 
 import 'package:app_personal/data/data.dart';
@@ -6,8 +7,27 @@ import 'package:flutter/material.dart';
 import '../models/exercicio.dart';
 
 class formExercicio extends StatefulWidget {
-  Function(Exercicio) onSubmit;
-  formExercicio({super.key, required this.onSubmit});
+  Function(Exercicio)? onSubmit;
+  Function(String, String, String, String, String, String)? onUpdate;
+  String titulo;
+  String series;
+  String repeticoes;
+  String descricao;
+  String url;
+  String grupo;
+  bool update;
+  formExercicio(
+      {Key? key,
+      this.onSubmit,
+      this.onUpdate,
+      this.titulo = '',
+      this.series = '',
+      this.repeticoes = '',
+      this.descricao = '',
+      this.url = '',
+      this.grupo = '',
+      this.update = false})
+      : super(key: key);
 
   @override
   State<formExercicio> createState() => _formExercicioState();
@@ -27,51 +47,74 @@ class _formExercicioState extends State<formExercicio> {
   TextEditingController _grupoMuscularController = TextEditingController();
 
   void _addExercicio(BuildContext context) {
-    // Verificar se todos os campos obrigatórios estão preenchidos
-    if (_tituloController.text.isEmpty ||
-        _seriesController.text.isEmpty ||
-        _repeticoesController.text.isEmpty ||
-        _grupoMuscularController.text.isEmpty) {
-      // Mostrar um diálogo ou mensagem de erro informando que os campos obrigatórios devem ser preenchidos
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Erro'),
-            content: Text('Por favor, preencha todos os campos obrigatórios.'),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
+    if (widget.update) {
+      widget.onUpdate!(
+        _tituloController.text,
+        _repeticoesController.text,
+        _seriesController.text,
+        _descricaoController.text,
+        _urlImageController.text,
+        _grupoMuscularController.text,
       );
-      return;
-    }
+      Navigator.pop(context);
+    } else {
+// Verificar se todos os campos obrigatórios estão preenchidos
+      if (_tituloController.text.isEmpty ||
+          _seriesController.text.isEmpty ||
+          _repeticoesController.text.isEmpty ||
+          _grupoMuscularController.text.isEmpty) {
+        // Mostrar um diálogo ou mensagem de erro informando que os campos obrigatórios devem ser preenchidos
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Erro'),
+              content:
+                  Text('Por favor, preencha todos os campos obrigatórios.'),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+        return;
+      }
 
-    Exercicio exercicio = Exercicio(
-      id: 'ft${Random().nextInt(9999)}',
-      titulo: _tituloController.text,
-      series: int.parse(_seriesController.text),
-      repeticoes: int.parse(_repeticoesController.text),
-      grupoMuscular: _grupoMuscularController.text,
-      descricao: _descricaoController.text,
-      execucao: _urlImageController.text,
-    );
-    widget.onSubmit(exercicio);
-    Navigator.pop(context);
+      Exercicio exercicio = Exercicio(
+        id: 'ft${Random().nextInt(9999)}',
+        titulo: _tituloController.text,
+        series: int.parse(_seriesController.text),
+        repeticoes: int.parse(_repeticoesController.text),
+        grupoMuscular: _grupoMuscularController.text,
+        descricao: _descricaoController.text,
+        execucao: _urlImageController.text,
+      );
+      widget.onSubmit!(exercicio);
+      Navigator.pop(context);
+    }
+  }
+
+  void initState() {
+    super.initState();
+    _tituloController.text = widget.titulo;
+    _seriesController.text = widget.series;
+    _repeticoesController.text = widget.repeticoes;
+    _descricaoController.text = widget.descricao;
+    _grupoMuscularController.text = widget.grupo;
+    _urlImageController.text = widget.url;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          "Cadastro de exercício",
+        title: Text(
+          widget.update ? "Atualizar exercício" : "Cadastrar exercício",
           style: TextStyle(
             color: Colors.white,
           ),
@@ -125,7 +168,9 @@ class _formExercicioState extends State<formExercicio> {
               ),
               ElevatedButton(
                   onPressed: () => _addExercicio(context),
-                  child: Text("Adicionar Exercício"))
+                  child: Text(widget.update
+                      ? "Atualizar Exercício"
+                      : "Cadastrar Exercício"))
             ],
           ),
         ),

@@ -1,3 +1,7 @@
+import 'dart:ffi';
+
+import 'package:app_personal/components/formExercicio.dart';
+import 'package:app_personal/data/data.dart';
 import 'package:flutter/material.dart';
 import '../models/exercicio.dart';
 
@@ -18,6 +22,36 @@ class _DetalhesExercicioState extends State<DetalhesExercicio> {
     nomeExercicio = widget.exercicio.titulo;
   }
 
+  _updateExericicio(String titulo, String repeticoes, String series,
+      String descricao, String url, String grupo) {
+    setState(() {
+      widget.exercicio.descricao = descricao;
+      widget.exercicio.titulo = titulo;
+      widget.exercicio.execucao = url;
+      widget.exercicio.grupoMuscular = grupo;
+      widget.exercicio.series = int.parse(series);
+      widget.exercicio.repeticoes = int.parse(repeticoes);
+      nomeExercicio = titulo;
+      lst_exercicios.add(widget.exercicio);
+    });
+  }
+
+  _openEditModal(BuildContext context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (_) {
+          return formExercicio(
+              onUpdate: _updateExericicio,
+              update: true,
+              titulo: widget.exercicio.titulo,
+              descricao: widget.exercicio.descricao,
+              series: widget.exercicio.series.toString(),
+              repeticoes: widget.exercicio.repeticoes.toString(),
+              url: widget.exercicio.execucao!,
+              grupo: widget.exercicio.grupoMuscular);
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,6 +62,13 @@ class _DetalhesExercicioState extends State<DetalhesExercicio> {
             color: Colors.white,
           ),
         ),
+        actions: [
+          IconButton(
+              onPressed: () {
+                _openEditModal(context);
+              },
+              icon: Icon(Icons.edit))
+        ],
         backgroundColor: Color(0XFF085444),
       ),
       body: Padding(

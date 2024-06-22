@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Exercicio{
-  final String id;
-  final String titulo;
-  final int series;
-  final int repeticoes;
-  final String? execucao;
-  final String descricao;
-  final String grupoMuscular;
+class Exercicio {
+  String id;
+  String titulo;
+  int series;
+  int repeticoes;
+  String? execucao;
+  String descricao;
+  String grupoMuscular;
 
   Exercicio(
       {required this.id,
