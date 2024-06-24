@@ -31,4 +31,19 @@ class AvaliacaoFisica {
   calcularImc() {
     imc = peso / (altura * altura);
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'descricao': descricao,
+      'aluno': aluno.id,
+      'peso': peso,
+      'altura': altura,
+      'observacoes': observacoes != null ? observacoes : '',
+      'medidaCintura': medidaCintura != null ? medidaCintura : '',
+      'medidaBraco': medidaBraco != null ? medidaBraco : '',
+      'medidaPeito': medidaPeito != null ? medidaPeito : '',
+      'medidaPerda': medidaPerda != null ? medidaPerda : '',
+    };
+  }
 }

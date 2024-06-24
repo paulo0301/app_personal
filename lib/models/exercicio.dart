@@ -17,4 +17,16 @@ class Exercicio {
       required this.descricao,
       required this.grupoMuscular,
       this.execucao});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'titulo': titulo,
+      'series': series,
+      'repeticoes': repeticoes,
+      'execucao': execucao != null ? execucao : '',
+      'descricao': descricao,
+      'grupoMuscular': grupoMuscular,
+    };
+  }
 }

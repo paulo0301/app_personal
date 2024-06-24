@@ -1,3 +1,4 @@
+import 'package:app_personal/controller/AlunoController.dart';
 import 'package:app_personal/models/aluno.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -36,6 +37,7 @@ class _DadosAlunoState extends State<DadosAluno> {
     widget.aluno.nome = _nomeController.text;
     widget.aluno.email = _emailController.text;
     widget.aluno.dataNascimento = _dataNascimentoSelecionada;
+    AlunoController.updateAluno(widget.aluno);
     widget.onSave();
 
     const snackBar = SnackBar(

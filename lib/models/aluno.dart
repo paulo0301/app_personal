@@ -20,4 +20,25 @@ class Aluno {
   void adicionarAvalicao(AvaliacaoFisica avaliacaoFisica) {
     this.avaliacoesFisicas.add(avaliacaoFisica);
   }
+
+  factory Aluno.fromJson(Map<String, dynamic> json) {
+    return Aluno(
+        id: json['id'],
+        nome: json['nome'],
+        email: json['email'],
+        dataNascimento: json['dataNascimento'],
+        fichaTreino: json['fichaTreino']);
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'nome': nome,
+      'email': email,
+      'dataNascimento': dataNascimento.toIso8601String(),
+      'avaliacoesFisicas':
+          avaliacoesFisicas.map((avaliacao) => avaliacao.toJson()).toList(),
+      'fichaTreino':
+          fichaTreino.toJson(this), // Convertendo FichaDeTreino para JSON
+    };
+  }
 }

@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:app_personal/components/form_aluno.dart';
 import 'package:app_personal/components/main_drawer.dart';
+import 'package:app_personal/controller/AlunoController.dart';
 import 'package:app_personal/models/aluno.dart';
 import 'package:app_personal/models/ficha_treino.dart';
 import 'package:app_personal/screens/tabs_screen.dart';
@@ -15,26 +16,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  List<Aluno> alunos = [
-    Aluno(
-      id: 'a1',
-      nome: "Paulo Daniel",
-      email: "pdaniel@gmail.com",
-      dataNascimento: DateTime(2003, 01, 03),
-      fichaTreino: FichaDeTreino(id: ('ft${Random().nextInt(9999)}')),
-    ),
-    Aluno(
-      id: 'a2',
-      nome: "Lucas Albert",
-      email: "lulubert@gmail.com",
-      dataNascimento: DateTime(2006, 05, 10),
-      fichaTreino: FichaDeTreino(id: ('ft${Random().nextInt(9999)}')),
-    ),
-  ];
+  late Future<List<Aluno>> alunos = AlunoController.getAlunos();
 
   _deleteAluno(Aluno? aluno) {
+    print(aluno!.id);
     setState(() {
-      if (aluno != null) alunos.remove(aluno);
+      if (aluno != null) AlunoController.deleteAluno(aluno.id);
     });
     Navigator.of(context).pop();
   }
@@ -69,8 +56,9 @@ class _HomePageState extends State<HomePage> {
         dataNascimento: dataNascimento,
         fichaTreino: fichaDeTreino);
 
+    AlunoController.addAluno(newAluno);
     setState(() {
-      alunos.add(newAluno);
+      alunos = AlunoController.getAlunos();
     });
 
     Navigator.of(context).pop();
@@ -96,24 +84,43 @@ class _HomePageState extends State<HomePage> {
         ),
         backgroundColor: Color(0XFF085444),
       ),
-      body: ListView.builder(
-        itemCount: alunos.length,
-        itemBuilder: (ctx, index) {
-          return _createCardAluno(
-            alunos[index],
-            () {
-              Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => TabsScreen(
-                        aluno: alunos[index],
-                        onDelete: _deleteAluno,
-                        onSave: _saveFormEditAluno,
-                      )));
-            },
-          );
-        },
-      ),
+      body: FutureBuilder<List<Aluno>>(
+          future: alunos,
+          builder: ((context, snapshot) {
+            if (snapshot.hasError) {
+              print(snapshot.error);
+              return Center(
+                child: Text("Erro"),
+              );
+            } else if (snapshot.hasData) {
+              return ListView.builder(
+                itemCount: snapshot.data!.length,
+                itemBuilder: (ctx, index) {
+                  return _createCardAluno(
+                    snapshot.data![index],
+                    () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => TabsScreen(
+                                aluno: snapshot.data![index],
+                                onDelete: _deleteAluno,
+                                onSave: _saveFormEditAluno,
+                              )));
+                    },
+                  );
+                },
+              );
+            } else {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+          })),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _openTaskAlunoFormModal(context),
+        onPressed: () => {
+          setState(() {
+            _openTaskAlunoFormModal(context);
+          })
+        },
         child: const Icon(Icons.person_add),
       ),
       drawer: MainDrawer(),

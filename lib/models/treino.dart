@@ -11,4 +11,13 @@ class Treino {
       required this.titulo,
       required this.exercicios,
       required this.grupoMuscular});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'titulo': titulo,
+      'grupoMuscular': grupoMuscular,
+      'exercicos': exercicios.map((exercicio) => exercicio.toJson()).toList()
+    };
+  }
 }
