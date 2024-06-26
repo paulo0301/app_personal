@@ -55,15 +55,34 @@ class AlunoController {
   }
 
   static Future<Aluno> updateAluno(Aluno aluno) async {
-    String dataFormat = aluno.dataNascimento.toIso8601String();
-    final response = await http.put(Uri.parse(baseUrl),
-        body: jsonEncode({
+    print("EDITAR");
+    String id = aluno.id;
+    final response = await http.put(
+        Uri.parse(
+            'https://personal-app-90b28-default-rtdb.firebaseio.com/aluno/$id.json'),
+        body: jsonEncode(<String, dynamic>{
           'nome': aluno.nome,
           'email': aluno.email,
-          'dataNascimento': dataFormat,
-          'avaliacoesFisicas': aluno.avaliacoesFisicas,
-          'fichaTreino': aluno.fichaTreino
+          'dataNascimento': aluno.dataNascimento.toIso8601String(),
+          'avaliacoesFisicas': aluno.avaliacoesFisicas
+              .map((avaliacao) => avaliacao.toJson())
+              .toList(),
+          'fichaTreino': aluno.fichaTreino.toJson(aluno.id),
         }));
+
+    if (response.statusCode == 200) {
+      print("200 EDIT");
+      return Aluno.fromJson(jsonDecode(response.body));
+    }
+
+    throw Exception("Erro não foi possível salvar o aluno!");
+  }
+
+  static Future<Aluno> addFIchaTreino(String id, FichaDeTreino ficha) async {
+    final response = await http.put(
+        Uri.parse(
+            'https://personal-app-90b28-default-rtdb.firebaseio.com/aluno/$id/fichaTreino.json'),
+        body: jsonEncode(ficha.toJson(id)));
 
     if (response.statusCode == 200) {
       return Aluno.fromJson(jsonDecode(response.body));
@@ -74,7 +93,7 @@ class AlunoController {
 
   static Future<Aluno> deleteAluno(String id) async {
     final http.Response response = await http.delete(Uri.parse(
-        'https://mini-projeto-iv---flutter-default-rtdb.firebaseio.com/aluno/$id.json'));
+        'https://personal-app-90b28-default-rtdb.firebaseio.com/aluno/$id.json'));
 
     if (response.statusCode == 200) {
       print("200 OK DELETE");

@@ -20,7 +20,7 @@ class FichaDeTreino {
     );
   }
 
-  Map<String, dynamic> toJson(Aluno aluno) {
+  Map<String, dynamic> toJson(String id) {
     return {
       'id': id,
       'aluno': aluno.id,

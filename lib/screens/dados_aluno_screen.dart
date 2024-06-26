@@ -33,10 +33,12 @@ class _DadosAlunoState extends State<DadosAluno> {
   }
 
   _saveForm() {
+    String id_aluno = widget.aluno.id;
     if (_nomeController.text.isEmpty || _emailController.text.isEmpty) return;
     widget.aluno.nome = _nomeController.text;
     widget.aluno.email = _emailController.text;
     widget.aluno.dataNascimento = _dataNascimentoSelecionada;
+    print("ID DO ALUNO: $id_aluno");
     AlunoController.updateAluno(widget.aluno);
     widget.onSave();
 

@@ -1,5 +1,6 @@
 import 'package:app_personal/components/formExercicio.dart';
 import 'package:app_personal/components/main_drawer.dart';
+import 'package:app_personal/controller/ExercicioController.dart';
 import 'package:app_personal/data/data.dart';
 import 'package:flutter/material.dart';
 
@@ -14,35 +15,40 @@ class ExerciciosPage extends StatefulWidget {
 }
 
 class _ExerciciosPageState extends State<ExerciciosPage> {
-  List<Exercicio> exerciciosFilter = [];
+  Future<List<Exercicio>> exercicios = ExercicioController.getExercicios();
+  Future<List<Exercicio>> exerciciosFilter =
+      ExercicioController.getExercicios();
 
   @override
   void initState() {
     super.initState();
-    exerciciosFilter = lst_exercicios;
+    exerciciosFilter = exercicios;
   }
 
   _updateList(Exercicio exercicio) {
     setState(() {
-      lst_exercicios.add(exercicio);
+      ExercicioController.addExercicio(exercicio);
     });
   }
 
   _removeExercicio(String id) {
     setState(() {
-      lst_exercicios.removeWhere((exercicio) => exercicio.id == id);
+      ExercicioController.deleteExercicio(id);
     });
   }
 
   _filter(String key) {
-    List<Exercicio> findExercicio = [];
+    Future<List<Exercicio>> findExercicio;
     if (key.isEmpty) {
-      findExercicio = lst_exercicios;
+      findExercicio = exercicios;
     } else {
-      findExercicio = lst_exercicios
-          .where((exercicio) =>
-              exercicio.titulo.toLowerCase().contains(key.toLowerCase()))
-          .toList();
+      findExercicio = exercicios.then((listaExercicios) {
+        // Filtra os exercícios cujo título contenha a chave (ignorando maiúsculas e minúsculas)
+        return listaExercicios
+            .where((exercicio) =>
+                exercicio.titulo.toLowerCase().contains(key.toLowerCase()))
+            .toList();
+      });
     }
     setState(() {
       exerciciosFilter = findExercicio;
@@ -65,7 +71,9 @@ class _ExerciciosPageState extends State<ExerciciosPage> {
           SizedBox(
               width: 60,
               height: 60,
-              child: Image.network(exercicio.execucao!, fit: BoxFit.cover)),
+              child: exercicio.execucao != null
+                  ? Image.network(exercicio.execucao!, fit: BoxFit.cover)
+                  : Text("Sem videos de execução no momento...")),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -146,12 +154,27 @@ class _ExerciciosPageState extends State<ExerciciosPage> {
             ),
             SizedBox(height: 20),
             Expanded(
-              child: ListView.builder(
-                  itemCount: exerciciosFilter.length,
-                  itemBuilder: (exercicio, index) {
-                    return _createExerciciCard(
-                        context, exerciciosFilter[index]);
-                  }),
+              child: FutureBuilder<List<Exercicio>>(
+                future: exerciciosFilter,
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text("Não há exercicios cadastrados!"),
+                    );
+                  } else if (snapshot.hasData) {
+                    return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (exercicio, index) {
+                          return _createExerciciCard(
+                              context, snapshot.data![index]);
+                        });
+                  } else {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                },
+              ),
             ),
             SizedBox(height: 30)
           ],

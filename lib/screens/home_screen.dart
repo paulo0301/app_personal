@@ -47,21 +47,21 @@ class _HomePageState extends State<HomePage> {
   }
 
   _addAluno(String nome, String email, DateTime dataNascimento) {
-    FichaDeTreino fichaDeTreino =
-        FichaDeTreino(id: ('ft${Random().nextInt(9999)}'));
-    Aluno newAluno = Aluno(
-        id: ('a${Random().nextInt(9999)}'),
-        nome: nome,
-        email: email,
-        dataNascimento: dataNascimento,
-        fichaTreino: fichaDeTreino);
-
-    AlunoController.addAluno(newAluno);
     setState(() {
-      alunos = AlunoController.getAlunos();
-    });
+      FichaDeTreino fichaDeTreino =
+          FichaDeTreino(id: ('ft${Random().nextInt(9999)}'));
+      Aluno newAluno = Aluno(
+          id: ('a${Random().nextInt(9999)}'),
+          nome: nome,
+          email: email,
+          dataNascimento: dataNascimento,
+          fichaTreino: fichaDeTreino);
 
-    Navigator.of(context).pop();
+      AlunoController.addAluno(newAluno);
+      alunos = AlunoController.getAlunos();
+
+      Navigator.of(context).pop();
+    });
   }
 
   _openTaskAlunoFormModal(BuildContext context) {
@@ -90,7 +90,7 @@ class _HomePageState extends State<HomePage> {
             if (snapshot.hasError) {
               print(snapshot.error);
               return Center(
-                child: Text("Erro"),
+                child: Text("Não há alunos cadastrados!"),
               );
             } else if (snapshot.hasData) {
               return ListView.builder(

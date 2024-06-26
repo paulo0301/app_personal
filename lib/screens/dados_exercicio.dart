@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:app_personal/components/formExercicio.dart';
+import 'package:app_personal/controller/ExercicioController.dart';
 import 'package:app_personal/data/data.dart';
 import 'package:flutter/material.dart';
 import '../models/exercicio.dart';
@@ -32,7 +33,7 @@ class _DetalhesExercicioState extends State<DetalhesExercicio> {
       widget.exercicio.series = int.parse(series);
       widget.exercicio.repeticoes = int.parse(repeticoes);
       nomeExercicio = titulo;
-      lst_exercicios.add(widget.exercicio);
+      ExercicioController.updateExercicio(widget.exercicio);
     });
   }
 
@@ -47,7 +48,8 @@ class _DetalhesExercicioState extends State<DetalhesExercicio> {
               descricao: widget.exercicio.descricao,
               series: widget.exercicio.series.toString(),
               repeticoes: widget.exercicio.repeticoes.toString(),
-              url: widget.exercicio.execucao!,
+              url: widget.exercicio.execucao ??
+                  "Não há videos de execução para esse exercicio!",
               grupo: widget.exercicio.grupoMuscular);
         });
   }

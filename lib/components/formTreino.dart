@@ -1,3 +1,4 @@
+import 'package:app_personal/controller/ExercicioController.dart';
 import 'package:app_personal/data/data.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
@@ -16,6 +17,7 @@ class _formTreinoState extends State<formTreino> {
   TextEditingController _nomeController = TextEditingController();
   TextEditingController _grupoController = TextEditingController();
   List<Exercicio> exercicios = [];
+  Future<List<Exercicio>> lst_future = ExercicioController.getExercicios();
 
   List<bool> _checkes = [];
   @override
@@ -36,7 +38,9 @@ class _formTreinoState extends State<formTreino> {
     return Card(
       color: _checkes[index] ? Colors.green.shade500 : Colors.grey.shade300,
       child: ListTile(
-        leading: Image.network(exercicio.execucao!),
+        leading: exercicio.execucao != null
+            ? Image.network(exercicio.execucao!)
+            : Icon(Icons.image_not_supported),
         title: Text(exercicio.titulo),
         subtitle: Text(
             "Séries: ${exercicio.series} Repetições: ${exercicio.repeticoes}"),
@@ -93,11 +97,25 @@ class _formTreinoState extends State<formTreino> {
                 child: Text("Exercícios"),
               ),
               Expanded(
-                  child: ListView.builder(
-                      itemCount: lst_exercicios.length,
-                      itemBuilder: (exercicio, index) {
-                        return _createCardExercicio(
-                            lst_exercicios[index], index);
+                  child: FutureBuilder<List<Exercicio>>(
+                      future: lst_future,
+                      builder: (context, snapshot) {
+                        if (snapshot.hasError) {
+                          return Center(
+                            child: Text("Não há exercícios cadastrados!"),
+                          );
+                        } else if (snapshot.hasData) {
+                          return ListView.builder(
+                              itemCount: snapshot.data!.length,
+                              itemBuilder: (exercicio, index) {
+                                return _createCardExercicio(
+                                    snapshot.data![index], index);
+                              });
+                        } else {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
                       })),
               Center(
                 child: Padding(

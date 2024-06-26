@@ -38,7 +38,7 @@ class Aluno {
       'avaliacoesFisicas':
           avaliacoesFisicas.map((avaliacao) => avaliacao.toJson()).toList(),
       'fichaTreino':
-          fichaTreino.toJson(this), // Convertendo FichaDeTreino para JSON
+          fichaTreino.toJson(this.id), // Convertendo FichaDeTreino para JSON
     };
   }
 }
