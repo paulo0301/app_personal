@@ -1,6 +1,8 @@
 import 'dart:convert';
 
+import 'package:app_personal/models/exercicio.dart';
 import 'package:app_personal/models/ficha_treino.dart';
+import 'package:app_personal/models/treino.dart';
 
 import '../models/aluno.dart';
 import 'package:http/http.dart' as http;
@@ -101,5 +103,36 @@ class AlunoController {
     }
 
     throw Exception("Não foi possível deletar o aluno!");
+  }
+
+  static Future<List<Treino>> getTreinos(String id) async{
+    final response = await http.get(
+      Uri.parse('https://personal-app-90b28-default-rtdb.firebaseio.com/aluno/$id/fichaTreino/treinos')
+    );
+
+    List<Treino> treinos = [];
+
+    if(response.statusCode == 200){
+      final Map<String,dynamic> jbody = jsonDecode(response.body);
+
+      jbody.forEach((key,value){
+        List<Exercicio> exercicios = [];
+        if (value['exercicios'] != null) {
+          value['exercicios'].forEach((exercicio) {
+            exercicios.add(Exercicio.fromJson(exercicio));
+          });
+        }
+        Treino treino = new Treino(
+          id: key, titulo: value['titulo'], 
+          exercicios: exercicios, 
+          grupoMuscular: value['grupoMuscular']);
+
+        treinos.add(treino);
+      });
+
+      return treinos;
+    }
+
+    throw Exception("Erro não foi possível recuperar o treinos do aluno!");
   }
 }

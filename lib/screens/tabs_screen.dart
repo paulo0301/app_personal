@@ -36,7 +36,7 @@ class _TabsScreenState extends State<TabsScreen> {
   void initState() {
     super.initState();
     _screens = [
-      FichaTreino(fichaDeTreino: widget.aluno.fichaTreino),
+      FichaTreino(fichaDeTreino: widget.aluno.fichaTreino, aluno: widget.aluno,),
       AvaliacoesFisica(aluno: widget.aluno),
       DadosAluno(
         aluno: widget.aluno,

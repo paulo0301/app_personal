@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:app_personal/components/formTreino.dart';
+import 'package:app_personal/controller/AlunoController.dart';
 import 'package:app_personal/models/ficha_treino.dart';
 import 'package:app_personal/screens/dados_treino.dart';
 import 'package:flutter/material.dart';
@@ -11,18 +12,20 @@ import '../models/treino.dart';
 
 class FichaTreino extends StatefulWidget {
   FichaDeTreino fichaDeTreino;
-  FichaTreino({required this.fichaDeTreino});
+  Aluno aluno;
+  FichaTreino({required this.fichaDeTreino, required this.aluno});
+
 
   @override
   State<FichaTreino> createState() => _FichaTreinoState();
 }
 
 class _FichaTreinoState extends State<FichaTreino> {
-  List<Treino> treinos = [];
+  Future<List<Treino>> treinos = AlunoController.getTreinos(widget.aluno.id);
   @override
   void initState() {
     super.initState();
-    treinos = widget.fichaDeTreino.treinos;
+    treinos = await AlunoController.getTreinos(widget.aluno.id);
   }
 
   _adicionarTreino(
@@ -32,8 +35,13 @@ class _FichaTreinoState extends State<FichaTreino> {
         titulo: titulo,
         grupoMuscular: grupoMuscular,
         exercicios: exercicios);
+    FichaDeTreino ficha = widget.aluno.fichaTreino;
+    ficha.adicionarTreino(treino);
+    widget.aluno.fichaTreino = ficha;
     setState(() {
-      widget.fichaDeTreino.adicionarTreino(treino);
+      if(widget.aluno != null){
+        AlunoController.updateAluno(widget.aluno);
+      }   
     });
   }
 

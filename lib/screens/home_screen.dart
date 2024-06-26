@@ -48,10 +48,11 @@ class _HomePageState extends State<HomePage> {
 
   _addAluno(String nome, String email, DateTime dataNascimento) {
     setState(() {
+      String id = ('a${Random().nextInt(9999)}');
       FichaDeTreino fichaDeTreino =
-          FichaDeTreino(id: ('ft${Random().nextInt(9999)}'));
+          FichaDeTreino(id: ('ft${Random().nextInt(9999)}'), alunoId: id);
       Aluno newAluno = Aluno(
-          id: ('a${Random().nextInt(9999)}'),
+          id: id,
           nome: nome,
           email: email,
           dataNascimento: dataNascimento,
