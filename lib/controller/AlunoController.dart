@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:app_personal/models/avaliacao_fisica.dart';
 import 'package:app_personal/models/exercicio.dart';
 import 'package:app_personal/models/ficha_treino.dart';
 import 'package:app_personal/models/treino.dart';
@@ -17,10 +18,8 @@ class AlunoController {
     final response = await http.get(Uri.parse(baseUrl));
 
     List<Aluno> alunos = [];
-    print("Lista delcarada!");
 
     if (response.statusCode == 200) {
-      print("200 ok");
       final Map<String, dynamic> jbody = jsonDecode(response.body);
 
       jbody.forEach((key, value) {
@@ -57,7 +56,6 @@ class AlunoController {
   }
 
   static Future<Aluno> updateAluno(Aluno aluno) async {
-    print("EDITAR");
     String id = aluno.id;
     final response = await http.put(
         Uri.parse(
@@ -73,7 +71,6 @@ class AlunoController {
         }));
 
     if (response.statusCode == 200) {
-      print("200 EDIT");
       return Aluno.fromJson(jsonDecode(response.body));
     }
 
@@ -98,41 +95,95 @@ class AlunoController {
         'https://personal-app-90b28-default-rtdb.firebaseio.com/aluno/$id.json'));
 
     if (response.statusCode == 200) {
-      print("200 OK DELETE");
       return Aluno.fromJson(jsonDecode(response.body));
     }
 
     throw Exception("Não foi possível deletar o aluno!");
   }
 
-  static Future<List<Treino>> getTreinos(String id) async{
-    final response = await http.get(
-      Uri.parse('https://personal-app-90b28-default-rtdb.firebaseio.com/aluno/$id/fichaTreino/treinos')
-    );
+  static Future<List<Treino>> getTreinos(String id) async {
+    final response = await http.get(Uri.parse(
+        'https://personal-app-90b28-default-rtdb.firebaseio.com/aluno/$id/fichaTreino/treinos.json'));
 
     List<Treino> treinos = [];
 
-    if(response.statusCode == 200){
-      final Map<String,dynamic> jbody = jsonDecode(response.body);
+    if (response.statusCode == 200) {
+      final List<dynamic> jbody = jsonDecode(response.body);
 
-      jbody.forEach((key,value){
+      jbody.forEach((value) {
         List<Exercicio> exercicios = [];
         if (value['exercicios'] != null) {
           value['exercicios'].forEach((exercicio) {
-            exercicios.add(Exercicio.fromJson(exercicio));
+            Exercicio exe = new Exercicio(
+                id: id,
+                titulo: exercicio['titulo'],
+                series: exercicio['series'],
+                repeticoes: exercicio['repeticoes'],
+                descricao: exercicio['descricao'],
+                grupoMuscular: exercicio['grupoMuscular']);
+            exercicios.add(exe);
           });
         }
         Treino treino = new Treino(
-          id: key, titulo: value['titulo'], 
-          exercicios: exercicios, 
-          grupoMuscular: value['grupoMuscular']);
-
+            id: value['id'],
+            titulo: value['titulo'],
+            exercicios: exercicios,
+            grupoMuscular: value['grupoMuscular']);
         treinos.add(treino);
       });
 
       return treinos;
     }
 
-    throw Exception("Erro não foi possível recuperar o treinos do aluno!");
+    throw Exception("Erro: não foi possível recuperar os treinos do aluno!");
+  }
+
+  static Future<List<AvaliacaoFisica>> getAvalicaoes(String id) async {
+    print("Tentar pegar avaliações");
+    final response = await http.get(Uri.parse(
+        'https://personal-app-90b28-default-rtdb.firebaseio.com/aluno/$id/avaliacoesFisicas.json'));
+
+    List<AvaliacaoFisica> avaliacoes = [];
+
+    if (response.statusCode == 200) {
+      print("200 AVALIACAO");
+
+      // Verifica se o body da resposta não é nulo
+      if (response.body != "null") {
+        List<dynamic> jbody = jsonDecode(response.body);
+
+        jbody.forEach((element) {
+          AvaliacaoFisica avaliacao = new AvaliacaoFisica(
+            id: element['id'],
+            descricao: element['descricao'],
+            alunoId: element['aluno'], // Ajuste conforme sua estrutura de Aluno
+            peso: element['peso'],
+            altura: element['altura'],
+            medidaBraco:
+                element['medidaBraco'] ?? 0.0, // Ajuste conforme necessário
+            medidaCintura:
+                element['medidaCintura'] ?? 0.0, // Ajuste conforme necessário
+            medidaPerda:
+                element['medidaPerda'] ?? 0.0, // Ajuste conforme necessário
+            medidaPeito:
+                element['medidaPeito'] ?? 0.0, // Ajuste conforme necessário
+            imc: element['imc'] ?? 0.0, // Ajuste conforme necessário
+            observacoes:
+                element['observacoes'] ?? "", // Ajuste conforme necessário
+          );
+
+          avaliacoes.add(avaliacao);
+        });
+
+        return avaliacoes;
+      } else {
+        print("Lista vazia");
+        // Se o body da resposta for "null", retorna uma lista vazia
+        return [];
+      }
+    }
+
+    throw Exception(
+        "Erro não possível recuperar as avaliações físicas do aluno");
   }
 }

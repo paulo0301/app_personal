@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:app_personal/components/card_avaliacao_fisica.dart';
 import 'package:app_personal/components/formAvalicao.dart';
+import 'package:app_personal/controller/AlunoController.dart';
 import 'package:app_personal/models/avaliacao_fisica.dart';
 import 'package:flutter/material.dart';
 
@@ -16,11 +17,11 @@ class AvaliacoesFisica extends StatefulWidget {
 }
 
 class _AvaliacoesFisicaState extends State<AvaliacoesFisica> {
-  List<AvaliacaoFisica> _listAvaliacoes = [];
+  late Future<List<AvaliacaoFisica>> _listAvaliacoes;
   @override
   void initState() {
     super.initState();
-    _listAvaliacoes = widget.aluno.avaliacoesFisicas;
+    _listAvaliacoes = AlunoController.getAvalicaoes(widget.aluno.id);
   }
 
   _addAvalicao(
@@ -35,7 +36,7 @@ class _AvaliacoesFisicaState extends State<AvaliacoesFisica> {
     AvaliacaoFisica avaliacao = AvaliacaoFisica(
       id: 'ft${Random().nextInt(9999)}',
       descricao: descricao,
-      aluno: widget.aluno,
+      alunoId: widget.aluno.id,
       peso: peso,
       altura: altura,
       observacoes: observacoes,
@@ -46,6 +47,7 @@ class _AvaliacoesFisicaState extends State<AvaliacoesFisica> {
     );
     setState(() {
       widget.aluno.adicionarAvalicao(avaliacao);
+      AlunoController.updateAluno(widget.aluno);
     });
   }
 
@@ -61,35 +63,36 @@ class _AvaliacoesFisicaState extends State<AvaliacoesFisica> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            _listAvaliacoes.isEmpty
-                ? Container(
-                    child: Column(
-                      children: [
-                        Text("Não há avaliações cadastradas para esse usuário"),
-                        SizedBox(height: 10),
-                        ElevatedButton(
-                          onPressed: () => {_openFormAvalicao(context)},
-                          child: Text("Nova avaliação +"),
-                        )
-                      ],
-                    ),
+      body: FutureBuilder<List<AvaliacaoFisica>>(
+        future: _listAvaliacoes,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print("ERRO: ${snapshot.error}");
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("Não há avaliações cadastradas para esse usuário"),
+                  SizedBox(height: 10),
+                  ElevatedButton(
+                    onPressed: () => {_openFormAvalicao(context)},
+                    child: Text("Nova avaliação +"),
                   )
-                : Expanded(
-                    child: ListView.builder(
-                        padding: EdgeInsets.all(10),
-                        itemCount: widget.aluno.avaliacoesFisicas.length,
-                        itemBuilder: (avaliacao, index) {
-                          return cardAvalicaoFisica(
-                              avaliacaoFisica:
-                                  widget.aluno.avaliacoesFisicas[index],
-                              index: index + 1);
-                        }))
-          ],
-        ),
+                ],
+              ),
+            );
+          } else if (snapshot.hasData) {
+            return ListView.builder(
+                padding: EdgeInsets.all(10),
+                itemCount: snapshot.data!.length,
+                itemBuilder: (avaliacao, index) {
+                  return cardAvalicaoFisica(
+                      avaliacaoFisica: snapshot.data![index], index: index + 1);
+                });
+          } else {
+            return Center(child: CircularProgressIndicator());
+          }
+        },
       ),
     );
   }

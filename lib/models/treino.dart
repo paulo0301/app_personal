@@ -17,7 +17,7 @@ class Treino {
       'id': id,
       'titulo': titulo,
       'grupoMuscular': grupoMuscular,
-      'exercicos': exercicios.map((exercicio) => exercicio.toJson()).toList()
+      'exercicios': exercicios.map((exercicio) => exercicio.toJson()).toList()
     };
   }
 }

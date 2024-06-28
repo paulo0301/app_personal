@@ -4,7 +4,7 @@ class AvaliacaoFisica {
   String id;
   String descricao;
   DateTime data = DateTime.now();
-  Aluno aluno;
+  String alunoId;
   double altura;
   double peso;
   double? imc;
@@ -17,7 +17,7 @@ class AvaliacaoFisica {
   AvaliacaoFisica({
     required this.id,
     required this.descricao,
-    required this.aluno,
+    required this.alunoId,
     required this.peso,
     required this.altura,
     this.observacoes,
@@ -25,6 +25,7 @@ class AvaliacaoFisica {
     this.medidaBraco,
     this.medidaPeito,
     this.medidaPerda,
+    this.imc,
     calcularImc,
   });
 
@@ -36,7 +37,7 @@ class AvaliacaoFisica {
     return {
       'id': id,
       'descricao': descricao,
-      'aluno': aluno.id,
+      'aluno': alunoId,
       'peso': peso,
       'altura': altura,
       'observacoes': observacoes != null ? observacoes : '',

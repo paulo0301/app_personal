@@ -29,7 +29,9 @@ class _dadosTreinoState extends State<dadosTreino> {
           SizedBox(
               width: 60,
               height: 60,
-              child: Image.network(exercicio.execucao!, fit: BoxFit.cover)),
+              child: exercicio.execucao != null
+                  ? Image.network(exercicio.execucao!, fit: BoxFit.cover)
+                  : Text("Sem vídeos de execução para este exercicio!")),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

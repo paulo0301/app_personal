@@ -38,7 +38,17 @@ class MainDrawer extends StatelessWidget {
               Icons.settings,
               'Exercícios',
               () => Navigator.of(context)
-                  .pushReplacementNamed(AppRoutes.EXERCICIOS))
+                  .pushReplacementNamed(AppRoutes.EXERCICIOS)),
+          _createItem(
+              Icons.fitness_center_rounded,
+              'Suplementos indicados',
+              () => Navigator.of(context)
+                  .pushReplacementNamed(AppRoutes.SUPLEMENTOS)),
+          _createItem(
+              Icons.fastfood,
+              'Alimentos indicados',
+              () => Navigator.of(context)
+                  .pushReplacementNamed(AppRoutes.ALIMENTOS)),
         ],
       ),
     );

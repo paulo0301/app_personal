@@ -15,17 +15,16 @@ class FichaTreino extends StatefulWidget {
   Aluno aluno;
   FichaTreino({required this.fichaDeTreino, required this.aluno});
 
-
   @override
   State<FichaTreino> createState() => _FichaTreinoState();
 }
 
 class _FichaTreinoState extends State<FichaTreino> {
-  Future<List<Treino>> treinos = AlunoController.getTreinos(widget.aluno.id);
+  late Future<List<Treino>> treinos;
   @override
   void initState() {
     super.initState();
-    treinos = await AlunoController.getTreinos(widget.aluno.id);
+    treinos = AlunoController.getTreinos(widget.aluno.id);
   }
 
   _adicionarTreino(
@@ -39,9 +38,9 @@ class _FichaTreinoState extends State<FichaTreino> {
     ficha.adicionarTreino(treino);
     widget.aluno.fichaTreino = ficha;
     setState(() {
-      if(widget.aluno != null){
+      if (widget.aluno != null) {
         AlunoController.updateAluno(widget.aluno);
-      }   
+      }
     });
   }
 
@@ -74,8 +73,12 @@ class _FichaTreinoState extends State<FichaTreino> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: treinos.isEmpty
-          ? Center(
+      body: FutureBuilder<List<Treino>>(
+        future: treinos,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            print(snapshot.error);
+            return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -90,18 +93,21 @@ class _FichaTreinoState extends State<FichaTreino> {
                   ),
                 ],
               ),
-            )
-          : Expanded(
-              child: Padding(
-                padding: EdgeInsets.all(10),
-                child: ListView.builder(
-                  itemCount: treinos.length,
-                  itemBuilder: (treino, index) {
-                    return _createTreinoCard(treinos[index]);
-                  },
-                ),
-              ),
-            ),
+            );
+          } else if (snapshot.hasData) {
+            return ListView.builder(
+              itemCount: snapshot.data!.length,
+              itemBuilder: (treino, index) {
+                return _createTreinoCard(snapshot.data![index]);
+              },
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           _openFormTreino(context);
