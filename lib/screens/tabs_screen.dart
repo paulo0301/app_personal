@@ -4,6 +4,7 @@ import 'package:app_personal/screens/dados_aluno_screen.dart';
 import 'package:app_personal/screens/ficha_treino_screen.dart';
 import 'package:flutter/material.dart';
 
+// ignore: must_be_immutable
 class TabsScreen extends StatefulWidget {
   Aluno aluno;
   Function(Aluno) onDelete;

@@ -139,14 +139,12 @@ class AlunoController {
   }
 
   static Future<List<AvaliacaoFisica>> getAvalicaoes(String id) async {
-    print("Tentar pegar avaliações");
     final response = await http.get(Uri.parse(
         'https://personal-app-90b28-default-rtdb.firebaseio.com/aluno/$id/avaliacoesFisicas.json'));
 
     List<AvaliacaoFisica> avaliacoes = [];
 
     if (response.statusCode == 200) {
-      print("200 AVALIACAO");
 
       // Verifica se o body da resposta não é nulo
       if (response.body != "null") {
@@ -177,7 +175,6 @@ class AlunoController {
 
         return avaliacoes;
       } else {
-        print("Lista vazia");
         // Se o body da resposta for "null", retorna uma lista vazia
         return [];
       }

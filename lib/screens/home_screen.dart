@@ -16,13 +16,16 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late Future<List<Aluno>> alunos = AlunoController.getAlunos();
+  late Future<List<Aluno>> alunos;
 
-  _deleteAluno(Aluno? aluno) {
-    print(aluno!.id);
-    setState(() {
-      if (aluno != null) AlunoController.deleteAluno(aluno.id);
-    });
+  void initState(){
+    super.initState();
+    alunos = AlunoController.getAlunos();
+  }
+
+  _deleteAluno(Aluno aluno) {
+    AlunoController.deleteAluno(aluno.id);
+    _updateScreen();
     Navigator.of(context).pop();
   }
 
@@ -46,8 +49,13 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  _addAluno(String nome, String email, DateTime dataNascimento) {
+  _updateScreen(){
     setState(() {
+      alunos = AlunoController.getAlunos();
+    });
+  }
+
+  _addAluno(String nome, String email, DateTime dataNascimento) {
       String id = ('a${Random().nextInt(9999)}');
       FichaDeTreino fichaDeTreino =
           FichaDeTreino(id: ('ft${Random().nextInt(9999)}'), alunoId: id);
@@ -59,10 +67,8 @@ class _HomePageState extends State<HomePage> {
           fichaTreino: fichaDeTreino);
 
       AlunoController.addAluno(newAluno);
-      alunos = AlunoController.getAlunos();
+      _updateScreen();
 
-      Navigator.of(context).pop();
-    });
   }
 
   _openTaskAlunoFormModal(BuildContext context) {

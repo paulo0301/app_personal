@@ -20,6 +20,8 @@ class _FormAlunoState extends State<FormAluno> {
 
     widget.onSubmit(_nomeController.text, _emailController.text,
         _dataNascimentoSelecionada);
+    Navigator.of(context).pop();
+
   }
 
   _showDatePicker() {

@@ -1,7 +1,6 @@
 import 'package:app_personal/components/formExercicio.dart';
 import 'package:app_personal/components/main_drawer.dart';
 import 'package:app_personal/controller/ExercicioController.dart';
-import 'package:app_personal/data/data.dart';
 import 'package:flutter/material.dart';
 
 import '../models/exercicio.dart';
@@ -25,16 +24,21 @@ class _ExerciciosPageState extends State<ExerciciosPage> {
     exerciciosFilter = exercicios;
   }
 
-  _updateList(Exercicio exercicio) {
+  _updateScreen(){
     setState(() {
-      ExercicioController.addExercicio(exercicio);
+      exercicios = ExercicioController.getExercicios();
+      exerciciosFilter = ExercicioController.getExercicios();
     });
   }
 
+  _updateList(Exercicio exercicio) {
+    ExercicioController.addExercicio(exercicio);
+    _updateScreen();
+  }
+
   _removeExercicio(String id) {
-    setState(() {
-      ExercicioController.deleteExercicio(id);
-    });
+    ExercicioController.deleteExercicio(id);
+    _updateScreen();
   }
 
   _filter(String key) {

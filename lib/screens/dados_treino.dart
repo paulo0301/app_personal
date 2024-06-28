@@ -1,4 +1,3 @@
-import 'package:app_personal/data/data.dart';
 import 'package:app_personal/screens/dados_exercicio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

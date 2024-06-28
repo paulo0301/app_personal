@@ -1,7 +1,6 @@
 import 'dart:ffi';
 import 'dart:math';
 
-import 'package:app_personal/data/data.dart';
 import 'package:flutter/material.dart';
 
 import '../models/exercicio.dart';

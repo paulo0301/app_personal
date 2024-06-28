@@ -2,7 +2,6 @@ import 'dart:ffi';
 
 import 'package:app_personal/components/formExercicio.dart';
 import 'package:app_personal/controller/ExercicioController.dart';
-import 'package:app_personal/data/data.dart';
 import 'package:flutter/material.dart';
 import '../models/exercicio.dart';
 
