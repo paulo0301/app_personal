@@ -1,11 +1,14 @@
 import 'package:app_personal/models/alimento.store.dart';
 import 'package:app_personal/models/suplemento.store.dart';
 import 'package:app_personal/screens/alimentos_screen.dart';
+import 'package:app_personal/screens/auth.dart';
 import 'package:app_personal/screens/exercicios_screen.dart';
 import 'package:app_personal/screens/home_screen.dart';
 import 'package:app_personal/screens/suplementos_screen.dart';
+import 'package:app_personal/services/local_auth_service.dart';
 import 'package:app_personal/utils/app_routes.dart';
 import 'package:flutter/material.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -28,6 +31,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
+        ChangeNotifierProvider<LocalAuthService>(create: (context) => LocalAuthService(auth: LocalAuthentication())),
         Provider<SuplementoModelX>(create: (context) => SuplementoModelX()),
         Provider<AlimentoModelX>(create: (context) => AlimentoModelX())
       ],
@@ -43,12 +47,13 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
           ),
         ),
-        initialRoute: "/",
+        initialRoute: "/auth",
         routes: {
           AppRoutes.HOME: (ctx) => HomePage(),
           AppRoutes.EXERCICIOS: (ctx) => ExerciciosPage(),
           AppRoutes.SUPLEMENTOS: (ctx) => SuplementosPage(),
-          AppRoutes.ALIMENTOS: (ctx) => AlimentosPage()
+          AppRoutes.ALIMENTOS: (ctx) => AlimentosPage(),
+          AppRoutes.AUTH: (ctx) => Auth()
         },
       ),
     );

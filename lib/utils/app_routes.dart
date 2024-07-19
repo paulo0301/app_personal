@@ -4,4 +4,5 @@ class AppRoutes {
   static const TABS = '/tabs-screen';
   static const SUPLEMENTOS= '/suplementos';
   static const ALIMENTOS = '/alimentos';
+  static const AUTH = '/auth';
 }
