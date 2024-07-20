@@ -28,7 +28,8 @@ class AlunoController {
             nome: value['nome'],
             email: value['email'],
             dataNascimento: DateTime.parse(value['dataNascimento']),
-            fichaTreino: FichaDeTreino.fromJson(value['fichaTreino']));
+            fichaTreino: FichaDeTreino.fromJson(value['fichaTreino']),
+            avatarPath: value['avatarPath']);
 
         alunos.add(aluno);
       });
@@ -145,7 +146,6 @@ class AlunoController {
     List<AvaliacaoFisica> avaliacoes = [];
 
     if (response.statusCode == 200) {
-
       // Verifica se o body da resposta não é nulo
       if (response.body != "null") {
         List<dynamic> jbody = jsonDecode(response.body);

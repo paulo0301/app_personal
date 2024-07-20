@@ -1,3 +1,6 @@
+// ignore_for_file: unused_import, prefer_const_constructors, avoid_print
+
+import 'dart:io';
 import 'dart:math';
 
 import 'package:app_personal/components/form_aluno.dart';
@@ -7,6 +10,7 @@ import 'package:app_personal/models/aluno.dart';
 import 'package:app_personal/models/ficha_treino.dart';
 import 'package:app_personal/screens/tabs_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:mobx/mobx.dart';
 
 class HomePage extends StatefulWidget {
   HomePage();
@@ -18,7 +22,8 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late Future<List<Aluno>> alunos;
 
-  void initState(){
+  @override
+  void initState() {
     super.initState();
     alunos = AlunoController.getAlunos();
   }
@@ -34,41 +39,53 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _createCardAluno(Aluno aluno, Function() onTap) {
+    File? imageFile = aluno.avatarPath != null ? File(aluno.avatarPath!) : null;
     return InkWell(
-      onTap: onTap,
-      child: Card(
-        margin: EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-        child: ListTile(
-          leading: const Image(
-            image: AssetImage("assets/man.png"),
-          ),
-          title: Text(aluno.nome),
-          subtitle: Text(aluno.email),
-        ),
-      ),
-    );
+        onTap: onTap,
+        child: Card(
+            margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+            child: aluno.avatarPath != null
+                ? ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: FileImage(imageFile!),
+                    ),
+                    title: Text(aluno.nome),
+                    subtitle: Text(aluno.email),
+                  )
+                : ListTile(
+                    leading: CircleAvatar(
+                      radius: 30,
+                      backgroundImage: AssetImage('assets/man.png'),
+                    ),
+                    title: Text(aluno.nome),
+                    subtitle: Text(aluno.email),
+                  )));
   }
 
-  _updateScreen(){
+  _updateScreen() {
     setState(() {
       alunos = AlunoController.getAlunos();
     });
   }
 
-  _addAluno(String nome, String email, DateTime dataNascimento) {
-      String id = ('a${Random().nextInt(9999)}');
-      FichaDeTreino fichaDeTreino =
-          FichaDeTreino(id: ('ft${Random().nextInt(9999)}'), alunoId: id);
-      Aluno newAluno = Aluno(
-          id: id,
-          nome: nome,
-          email: email,
-          dataNascimento: dataNascimento,
-          fichaTreino: fichaDeTreino);
+  _addAluno(String nome, String email, DateTime dataNascimento, File? avatar) {
+    String id = ('a${Random().nextInt(9999)}');
+    FichaDeTreino fichaDeTreino =
+        FichaDeTreino(id: ('ft${Random().nextInt(9999)}'), alunoId: id);
+    Aluno newAluno = Aluno(
+        id: id,
+        nome: nome,
+        email: email,
+        dataNascimento: dataNascimento,
+        fichaTreino: fichaDeTreino);
 
-      AlunoController.addAluno(newAluno);
-      _updateScreen();
+    if (avatar != null) {
+      newAluno.avatarPath = avatar.path;
+    }
 
+    AlunoController.addAluno(newAluno);
+    _updateScreen();
   }
 
   _openTaskAlunoFormModal(BuildContext context) {
@@ -96,7 +113,7 @@ class _HomePageState extends State<HomePage> {
           builder: ((context, snapshot) {
             if (snapshot.hasError) {
               print(snapshot.error);
-              return Center(
+              return const Center(
                 child: Text("Não há alunos cadastrados!"),
               );
             } else if (snapshot.hasData) {

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:app_personal/models/avaliacao_fisica.dart';
 import 'package:app_personal/models/ficha_treino.dart';
 
@@ -8,14 +10,15 @@ class Aluno {
   DateTime dataNascimento;
   List<AvaliacaoFisica> avaliacoesFisicas = [];
   late FichaDeTreino fichaTreino;
+  String? avatarPath;
 
-  Aluno({
-    required this.id,
-    required this.nome,
-    required this.email,
-    required this.dataNascimento,
-    required this.fichaTreino,
-  });
+  Aluno(
+      {required this.id,
+      required this.nome,
+      required this.email,
+      required this.dataNascimento,
+      required this.fichaTreino,
+      this.avatarPath});
 
   void adicionarAvalicao(AvaliacaoFisica avaliacaoFisica) {
     this.avaliacoesFisicas.add(avaliacaoFisica);
@@ -27,7 +30,8 @@ class Aluno {
         nome: json['nome'],
         email: json['email'],
         dataNascimento: json['dataNascimento'],
-        fichaTreino: json['fichaTreino']);
+        fichaTreino: json['fichaTreino'],
+        avatarPath: json['avatarPath'] != null ? json['avatarPath'] : '');
   }
 
   Map<String, dynamic> toJson() {
@@ -37,8 +41,8 @@ class Aluno {
       'dataNascimento': dataNascimento.toIso8601String(),
       'avaliacoesFisicas':
           avaliacoesFisicas.map((avaliacao) => avaliacao.toJson()).toList(),
-      'fichaTreino':
-          fichaTreino.toJson(this.id), // Convertendo FichaDeTreino para JSON
+      'fichaTreino': fichaTreino.toJson(this.id),
+      'avatarPath': avatarPath ?? ''
     };
   }
 }
