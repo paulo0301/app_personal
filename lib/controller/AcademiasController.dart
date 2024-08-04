@@ -31,10 +31,6 @@ class AcademiasController extends ChangeNotifier {
         Marker(
           markerId: MarkerId(academia.nome),
           position: LatLng(academia.latitude, academia.longitude),
-          icon: await BitmapDescriptor.fromAssetImage(
-            ImageConfiguration(),
-            'images/posto.png',
-          ),
           onTap: () => {
             showModalBottomSheet(
               context: appKey.currentState!.context,
