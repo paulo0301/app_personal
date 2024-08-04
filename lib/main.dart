@@ -1,5 +1,6 @@
 import 'package:app_personal/models/alimento.store.dart';
 import 'package:app_personal/models/suplemento.store.dart';
+import 'package:app_personal/screens/academias_screen.dart';
 import 'package:app_personal/screens/alimentos_screen.dart';
 import 'package:app_personal/screens/auth.dart';
 import 'package:app_personal/screens/exercicios_screen.dart';
@@ -31,7 +32,8 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<LocalAuthService>(create: (context) => LocalAuthService(auth: LocalAuthentication())),
+        ChangeNotifierProvider<LocalAuthService>(
+            create: (context) => LocalAuthService(auth: LocalAuthentication())),
         Provider<SuplementoModelX>(create: (context) => SuplementoModelX()),
         Provider<AlimentoModelX>(create: (context) => AlimentoModelX())
       ],
@@ -53,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
           AppRoutes.EXERCICIOS: (ctx) => ExerciciosPage(),
           AppRoutes.SUPLEMENTOS: (ctx) => SuplementosPage(),
           AppRoutes.ALIMENTOS: (ctx) => AlimentosPage(),
+          AppRoutes.ACADEMIAS: (ctx) => AcademiasPage(),
           AppRoutes.AUTH: (ctx) => Auth()
         },
       ),

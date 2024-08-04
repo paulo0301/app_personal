@@ -49,6 +49,11 @@ class MainDrawer extends StatelessWidget {
               'Alimentos indicados',
               () => Navigator.of(context)
                   .pushReplacementNamed(AppRoutes.ALIMENTOS)),
+          _createItem(
+              Icons.sports_gymnastics,
+              'Academias próximas',
+              () => Navigator.of(context)
+                  .pushReplacementNamed(AppRoutes.ACADEMIAS)),
         ],
       ),
     );
