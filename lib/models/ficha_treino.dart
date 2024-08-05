@@ -3,7 +3,7 @@ import 'package:app_personal/models/treino.dart';
 
 class FichaDeTreino {
   String id;
-  final String alunoId;
+  final int alunoId;
   List<Treino> treinos = [];
 
   FichaDeTreino({required this.id, required this.alunoId});
@@ -19,7 +19,7 @@ class FichaDeTreino {
     );
   }
 
-  Map<String, dynamic> toJson(String id) {
+  Map<String, dynamic> toJson(int id) {
     return {
       'id': id,
       'aluno_id': alunoId ?? '',

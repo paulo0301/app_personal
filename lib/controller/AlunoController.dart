@@ -24,7 +24,7 @@ class AlunoController {
 
       jbody.forEach((key, value) {
         Aluno aluno = new Aluno(
-            id: key,
+            id: int.parse(key),
             nome: value['nome'],
             email: value['email'],
             dataNascimento: DateTime.parse(value['dataNascimento']),
@@ -57,7 +57,7 @@ class AlunoController {
   }
 
   static Future<Aluno> updateAluno(Aluno aluno) async {
-    String id = aluno.id;
+    int id = aluno.id;
     final response = await http.put(
         Uri.parse(
             'https://personal-app-90b28-default-rtdb.firebaseio.com/aluno/$id.json'),
@@ -78,7 +78,7 @@ class AlunoController {
     throw Exception("Erro não foi possível salvar o aluno!");
   }
 
-  static Future<Aluno> addFIchaTreino(String id, FichaDeTreino ficha) async {
+  static Future<Aluno> addFIchaTreino(int id, FichaDeTreino ficha) async {
     final response = await http.put(
         Uri.parse(
             'https://personal-app-90b28-default-rtdb.firebaseio.com/aluno/$id/fichaTreino.json'),
@@ -91,7 +91,7 @@ class AlunoController {
     throw Exception("Erro não foi possível salvar o aluno!");
   }
 
-  static Future<Aluno> deleteAluno(String id) async {
+  static Future<Aluno> deleteAluno(int id) async {
     final http.Response response = await http.delete(Uri.parse(
         'https://personal-app-90b28-default-rtdb.firebaseio.com/aluno/$id.json'));
 
@@ -102,7 +102,7 @@ class AlunoController {
     throw Exception("Não foi possível deletar o aluno!");
   }
 
-  static Future<List<Treino>> getTreinos(String id) async {
+  static Future<List<Treino>> getTreinos(int id) async {
     final response = await http.get(Uri.parse(
         'https://personal-app-90b28-default-rtdb.firebaseio.com/aluno/$id/fichaTreino/treinos.json'));
 
@@ -139,7 +139,7 @@ class AlunoController {
     throw Exception("Erro: não foi possível recuperar os treinos do aluno!");
   }
 
-  static Future<List<AvaliacaoFisica>> getAvalicaoes(String id) async {
+  static Future<List<AvaliacaoFisica>> getAvalicaoes(int id) async {
     final response = await http.get(Uri.parse(
         'https://personal-app-90b28-default-rtdb.firebaseio.com/aluno/$id/avaliacoesFisicas.json'));
 
@@ -153,7 +153,7 @@ class AlunoController {
         jbody.forEach((element) {
           AvaliacaoFisica avaliacao = new AvaliacaoFisica(
             id: element['id'],
-            descricao: element['descricao'],
+            titulo: element['titulo'],
             alunoId: element['aluno'], // Ajuste conforme sua estrutura de Aluno
             peso: element['peso'],
             altura: element['altura'],

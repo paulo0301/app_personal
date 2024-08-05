@@ -4,7 +4,7 @@ import 'package:app_personal/models/avaliacao_fisica.dart';
 import 'package:app_personal/models/ficha_treino.dart';
 
 class Aluno {
-  final String id;
+  final int id;
   String nome;
   String email;
   DateTime dataNascimento;
@@ -36,6 +36,7 @@ class Aluno {
 
   Map<String, dynamic> toJson() {
     return {
+      'id':id,
       'nome': nome,
       'email': email,
       'dataNascimento': dataNascimento.toIso8601String(),

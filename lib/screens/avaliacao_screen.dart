@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:app_personal/components/card_avaliacao_fisica.dart';
 import 'package:app_personal/components/formAvalicao.dart';
 import 'package:app_personal/controller/AlunoController.dart';
+import 'package:app_personal/controller/AvaliacaoController.dart';
 import 'package:app_personal/models/avaliacao_fisica.dart';
 import 'package:flutter/material.dart';
 
@@ -21,17 +22,17 @@ class _AvaliacoesFisicaState extends State<AvaliacoesFisica> {
   @override
   void initState() {
     super.initState();
-    _listAvaliacoes = AlunoController.getAvalicaoes(widget.aluno.id);
+    _listAvaliacoes = Avaliacaocontroller.getAvaliacoesAluno(widget.aluno.id);
   }
 
   _updateScreen(){
     setState(() {
-      _listAvaliacoes = AlunoController.getAvalicaoes(widget.aluno.id);
+    _listAvaliacoes = Avaliacaocontroller.getAvaliacoesAluno(widget.aluno.id);
     });
   }
 
   _addAvalicao(
-      String descricao,
+      String titulo,
       double altura,
       double peso,
       String? observacoes,
@@ -40,9 +41,9 @@ class _AvaliacoesFisicaState extends State<AvaliacoesFisica> {
       double? medidaPerda,
       double? medidaPeito) {
     AvaliacaoFisica avaliacao = AvaliacaoFisica(
-      id: 'ft${Random().nextInt(9999)}',
-      descricao: descricao,
-      alunoId: widget.aluno.id,
+      id: Random().nextInt(9999),
+      titulo: titulo,
+      alunoId:( widget.aluno.id).toString(),
       peso: peso,
       altura: altura,
       observacoes: observacoes,
@@ -56,6 +57,7 @@ class _AvaliacoesFisicaState extends State<AvaliacoesFisica> {
     avalicaoes.add(avaliacao);
     widget.aluno.avaliacoesFisicas = avalicaoes;
     AlunoController.updateAluno(widget.aluno);
+    Avaliacaocontroller.addAvaliacao(avaliacao);
     _updateScreen();
   }
 

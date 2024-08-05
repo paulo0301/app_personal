@@ -30,7 +30,7 @@ class DadosAvaliacao extends StatelessWidget {
                 'Descrição:',
                 style: TextStyle(fontWeight: FontWeight.bold),
               ),
-              Text(avaliacaoFisica.descricao),
+              Text(avaliacaoFisica.titulo),
               SizedBox(height: 10),
               Text(
                 'Data de realização:',

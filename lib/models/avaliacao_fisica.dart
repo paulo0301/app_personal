@@ -1,8 +1,8 @@
 import 'package:app_personal/models/aluno.dart';
 
 class AvaliacaoFisica {
-  String id;
-  String descricao;
+  int id;
+  String titulo;
   DateTime data = DateTime.now();
   String alunoId;
   double altura;
@@ -16,7 +16,7 @@ class AvaliacaoFisica {
 
   AvaliacaoFisica({
     required this.id,
-    required this.descricao,
+    required this.titulo,
     required this.alunoId,
     required this.peso,
     required this.altura,
@@ -36,8 +36,8 @@ class AvaliacaoFisica {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'descricao': descricao,
-      'aluno': alunoId,
+      'titulo':titulo,
+      'aluno': int.parse(alunoId),
       'peso': peso,
       'altura': altura,
       'observacoes': observacoes != null ? observacoes : '',
@@ -46,5 +46,20 @@ class AvaliacaoFisica {
       'medidaPeito': medidaPeito != null ? medidaPeito : '',
       'medidaPerda': medidaPerda != null ? medidaPerda : '',
     };
+  }
+  factory AvaliacaoFisica.fromJson(Map<String, dynamic> json) {
+    return AvaliacaoFisica(
+      id: json['id'],
+      titulo: json['titulo'],
+      alunoId: json['alunoId'],
+      peso: json['peso'].toDouble(),  // Certifique-se de converter para double
+      altura: json['altura'].toDouble(),
+      observacoes: json['observacoes'],
+      medidaCintura: json['medidaCintura']?.toDouble(),
+      medidaBraco: json['medidaBraco']?.toDouble(),
+      medidaPeito: json['medidaPeito']?.toDouble(),
+      medidaPerda: json['medidaPerda']?.toDouble(),
+      imc: json['imc']?.toDouble(),  // Isso é opcional, se o IMC é retornado pelo servidor
+    )..calcularImc();  // Opcional: calcular IMC após deserialização
   }
 }
