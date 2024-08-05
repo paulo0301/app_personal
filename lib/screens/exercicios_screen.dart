@@ -36,7 +36,7 @@ class _ExerciciosPageState extends State<ExerciciosPage> {
     _updateScreen();
   }
 
-  _removeExercicio(String id) {
+  _removeExercicio(int id) {
     ExercicioController.deleteExercicio(id);
     _updateScreen();
   }
@@ -116,7 +116,7 @@ class _ExerciciosPageState extends State<ExerciciosPage> {
                 )),
             IconButton(
               onPressed: () {
-                _removeExercicio(exercicio.id);
+                _removeExercicio(exercicio.id!);
               },
               icon: Icon(
                 Icons.delete,

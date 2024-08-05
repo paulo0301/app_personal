@@ -85,7 +85,7 @@ class _formExercicioState extends State<formExercicio> {
       }
 
       Exercicio exercicio = Exercicio(
-        id: 'ft${Random().nextInt(9999)}',
+        id: Random().nextInt(9999),
         nome: _tituloController.text,
         series: int.parse(_seriesController.text),
         repeticoes: int.parse(_repeticoesController.text),

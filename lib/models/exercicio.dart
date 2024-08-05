@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Exercicio {
-  String id;
+  int? id;
   String nome;
   int series;
   int repeticoes;
@@ -10,7 +10,7 @@ class Exercicio {
   //String grupoMuscular;
 
   Exercicio(
-      {required this.id,
+      {this.id,
       required this.nome,
       required this.series,
       required this.repeticoes,
@@ -20,11 +20,11 @@ class Exercicio {
 
   factory Exercicio.fromJson(Map<String, dynamic> json) {
     return Exercicio(
-        id: json['id'],
-        nome: json['nome'],
-        series: json['series'],
-        repeticoes: json['repeticoes'],
-        observacoes: json['descricao']);
+      id: json['id'],
+      nome: json['nome'],
+      series: json['series'],
+      repeticoes: json['repeticoes'],
+      observacoes: json['observacoes']);
     //grupoMuscular: json['grupoMuscular']);
   }
 

@@ -116,7 +116,7 @@ class AlunoController {
         if (value['exercicios'] != null) {
           value['exercicios'].forEach((exercicio) {
             Exercicio exe = new Exercicio(
-                id: id,
+                id: exercicio.id,
                 nome: exercicio['nome'],
                 series: exercicio['series'],
                 repeticoes: exercicio['repeticoes'],
