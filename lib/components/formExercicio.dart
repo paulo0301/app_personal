@@ -7,13 +7,13 @@ import '../models/exercicio.dart';
 
 class formExercicio extends StatefulWidget {
   Function(Exercicio)? onSubmit;
-  Function(String, String, String, String, String, String)? onUpdate;
+  Function(String, String, String, String)? onUpdate;
   String titulo;
   String series;
   String repeticoes;
   String descricao;
-  String url;
-  String grupo;
+  // String url;
+  // String grupo;
   bool update;
   formExercicio(
       {Key? key,
@@ -23,8 +23,8 @@ class formExercicio extends StatefulWidget {
       this.series = '',
       this.repeticoes = '',
       this.descricao = '',
-      this.url = '',
-      this.grupo = '',
+      // this.url = '',
+      // this.grupo = '',
       this.update = false})
       : super(key: key);
 
@@ -41,9 +41,9 @@ class _formExercicioState extends State<formExercicio> {
 
   TextEditingController _descricaoController = TextEditingController();
 
-  TextEditingController _urlImageController = TextEditingController();
+  // TextEditingController _urlImageController = TextEditingController();
 
-  TextEditingController _grupoMuscularController = TextEditingController();
+  // TextEditingController _grupoMuscularController = TextEditingController();
 
   void _addExercicio(BuildContext context) {
     if (widget.update) {
@@ -52,16 +52,16 @@ class _formExercicioState extends State<formExercicio> {
         _repeticoesController.text,
         _seriesController.text,
         _descricaoController.text,
-        _urlImageController.text,
-        _grupoMuscularController.text,
+        //_urlImageController.text,
+        //_grupoMuscularController.text,
       );
       Navigator.pop(context);
     } else {
 // Verificar se todos os campos obrigatórios estão preenchidos
       if (_tituloController.text.isEmpty ||
           _seriesController.text.isEmpty ||
-          _repeticoesController.text.isEmpty ||
-          _grupoMuscularController.text.isEmpty) {
+          _repeticoesController.text.isEmpty) {
+        //_grupoMuscularController.text.isEmpty) {
         // Mostrar um diálogo ou mensagem de erro informando que os campos obrigatórios devem ser preenchidos
         showDialog(
           context: context,
@@ -86,12 +86,12 @@ class _formExercicioState extends State<formExercicio> {
 
       Exercicio exercicio = Exercicio(
         id: 'ft${Random().nextInt(9999)}',
-        titulo: _tituloController.text,
+        nome: _tituloController.text,
         series: int.parse(_seriesController.text),
         repeticoes: int.parse(_repeticoesController.text),
-        grupoMuscular: _grupoMuscularController.text,
-        descricao: _descricaoController.text,
-        execucao: _urlImageController.text,
+        //grupoMuscular: _grupoMuscularController.text,
+        observacoes: _descricaoController.text,
+        //execucao: _urlImageController.text,
       );
       widget.onSubmit!(exercicio);
       Navigator.pop(context);
@@ -104,8 +104,8 @@ class _formExercicioState extends State<formExercicio> {
     _seriesController.text = widget.series;
     _repeticoesController.text = widget.repeticoes;
     _descricaoController.text = widget.descricao;
-    _grupoMuscularController.text = widget.grupo;
-    _urlImageController.text = widget.url;
+    //_grupoMuscularController.text = widget.grupo;
+    //_urlImageController.text = widget.url;
   }
 
   @override
@@ -131,7 +131,7 @@ class _formExercicioState extends State<formExercicio> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Título"),
+                  Text("Nome"),
                   TextField(
                     controller: _tituloController,
                   ),
@@ -148,20 +148,20 @@ class _formExercicioState extends State<formExercicio> {
                     keyboardType: TextInputType.number,
                   ),
                   SizedBox(height: 15),
-                  Text("Grupo muscular"),
-                  TextField(
-                    controller: _grupoMuscularController,
-                  ),
-                  SizedBox(height: 15),
-                  Text("Descrição"),
+                  // Text("Grupo muscular"),
+                  // TextField(
+                  //   controller: _grupoMuscularController,
+                  // ),
+                  // SizedBox(height: 15),
+                  Text("Observações"),
                   TextField(
                     controller: _descricaoController,
                   ),
-                  SizedBox(height: 15),
-                  Text("Url da imagem de execução"),
-                  TextField(
-                    controller: _urlImageController,
-                  ),
+                  // SizedBox(height: 15),
+                  // Text("Url da imagem de execução"),
+                  // TextField(
+                  //   controller: _urlImageController,
+                  // ),
                   SizedBox(height: 20),
                 ],
               ),

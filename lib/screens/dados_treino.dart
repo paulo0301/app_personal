@@ -28,14 +28,15 @@ class _dadosTreinoState extends State<dadosTreino> {
           SizedBox(
               width: 60,
               height: 60,
-              child: exercicio.execucao != null
-                  ? Image.network(exercicio.execucao!, fit: BoxFit.cover)
-                  : Text("Sem vídeos de execução para este exercicio!")),
+              // child: exercicio.execucao != null
+              //     ? Image.network(exercicio.execucao!, fit: BoxFit.cover)
+              //     : Text("Sem vídeos de execução para este exercicio!")),
+              child: Text("Sem vídeos de execução pára este exercício")),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                exercicio.titulo,
+                exercicio.nome,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               Row(

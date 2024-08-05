@@ -24,7 +24,7 @@ class _ExerciciosPageState extends State<ExerciciosPage> {
     exerciciosFilter = exercicios;
   }
 
-  _updateScreen(){
+  _updateScreen() {
     setState(() {
       exercicios = ExercicioController.getExercicios();
       exerciciosFilter = ExercicioController.getExercicios();
@@ -50,7 +50,7 @@ class _ExerciciosPageState extends State<ExerciciosPage> {
         // Filtra os exercícios cujo título contenha a chave (ignorando maiúsculas e minúsculas)
         return listaExercicios
             .where((exercicio) =>
-                exercicio.titulo.toLowerCase().contains(key.toLowerCase()))
+                exercicio.nome.toLowerCase().contains(key.toLowerCase()))
             .toList();
       });
     }
@@ -75,14 +75,15 @@ class _ExerciciosPageState extends State<ExerciciosPage> {
           SizedBox(
               width: 60,
               height: 60,
-              child: exercicio.execucao != null
-                  ? Image.network(exercicio.execucao!, fit: BoxFit.cover)
-                  : Text("Sem videos de execução no momento...")),
+              // child: exercicio.execucao != null
+              //     ? Image.network(exercicio.execucao!, fit: BoxFit.cover)
+              //     : Text("Sem videos de execução no momento...")),
+              child: Text("Sem vídeos de execução para este exercício")),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                exercicio.titulo,
+                exercicio.nome,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
               ),
               Row(

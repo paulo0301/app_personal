@@ -2,40 +2,40 @@ import 'package:flutter/material.dart';
 
 class Exercicio {
   String id;
-  String titulo;
+  String nome;
   int series;
   int repeticoes;
-  String? execucao;
-  String descricao;
-  String grupoMuscular;
+  //String? execucao;
+  String observacoes;
+  //String grupoMuscular;
 
   Exercicio(
       {required this.id,
-      required this.titulo,
+      required this.nome,
       required this.series,
       required this.repeticoes,
-      required this.descricao,
-      required this.grupoMuscular,
-      this.execucao});
+      required this.observacoes});
+  //required this.grupoMuscular,
+  //this.execucao});
 
   factory Exercicio.fromJson(Map<String, dynamic> json) {
     return Exercicio(
         id: json['id'],
-        titulo: json['titulo'],
+        nome: json['nome'],
         series: json['series'],
         repeticoes: json['repeticoes'],
-        descricao: json['descricao'],
-        grupoMuscular: json['grupoMuscular']);
+        observacoes: json['descricao']);
+    //grupoMuscular: json['grupoMuscular']);
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'titulo': titulo,
+      'nome': nome,
       'series': series,
       'repeticoes': repeticoes,
-      'execucao': execucao != null ? execucao : '',
-      'descricao': descricao,
-      'grupoMuscular': grupoMuscular,
+      //'execucao': execucao != null ? execucao : '',
+      'observacoes': observacoes,
+      //'grupoMuscular': grupoMuscular,
     };
   }
 }

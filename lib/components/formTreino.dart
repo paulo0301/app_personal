@@ -42,10 +42,11 @@ class _formTreinoState extends State<formTreino> {
     return Card(
       color: _checkes[index] ? Colors.green.shade500 : Colors.grey.shade300,
       child: ListTile(
-        leading: exercicio.execucao != null
-            ? Image.network(exercicio.execucao!)
-            : Icon(Icons.image_not_supported),
-        title: Text(exercicio.titulo),
+        // leading: exercicio.execucao != null
+        //     ? Image.network(exercicio.execucao!)
+        //     : Icon(Icons.image_not_supported),
+        leading: Icon(Icons.image_not_supported),
+        title: Text(exercicio.nome),
         subtitle: Text(
             "Séries: ${exercicio.series} Repetições: ${exercicio.repeticoes}"),
         trailing: IconButton(
@@ -118,13 +119,14 @@ class _formTreinoState extends State<formTreino> {
                   } else if (snapshot.hasData) {
                     // Inicialize _checkes apenas quando tiver dados
                     if (_checkes.isEmpty) {
-                      _checkes =
-                          List.generate(snapshot.data!.length, (index) => false);
+                      _checkes = List.generate(
+                          snapshot.data!.length, (index) => false);
                     }
                     return ListView.builder(
                       itemCount: snapshot.data!.length,
                       itemBuilder: (context, index) {
-                        return _createCardExercicio(snapshot.data![index], index);
+                        return _createCardExercicio(
+                            snapshot.data![index], index);
                       },
                     );
                   } else {

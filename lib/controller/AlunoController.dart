@@ -117,11 +117,11 @@ class AlunoController {
           value['exercicios'].forEach((exercicio) {
             Exercicio exe = new Exercicio(
                 id: id,
-                titulo: exercicio['titulo'],
+                nome: exercicio['nome'],
                 series: exercicio['series'],
                 repeticoes: exercicio['repeticoes'],
-                descricao: exercicio['descricao'],
-                grupoMuscular: exercicio['grupoMuscular']);
+                observacoes: exercicio['observacoes']);
+            //grupoMuscular: exercicio['grupoMuscular']);
             exercicios.add(exe);
           });
         }

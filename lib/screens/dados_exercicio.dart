@@ -19,16 +19,17 @@ class _DetalhesExercicioState extends State<DetalhesExercicio> {
 
   void initState() {
     super.initState();
-    nomeExercicio = widget.exercicio.titulo;
+    nomeExercicio = widget.exercicio.nome;
   }
 
-  _updateExericicio(String titulo, String repeticoes, String series,
-      String descricao, String url, String grupo) {
+  _updateExericicio(
+      String titulo, String repeticoes, String series, String descricao) {
+    //, String url, String grupo) {
     setState(() {
-      widget.exercicio.descricao = descricao;
-      widget.exercicio.titulo = titulo;
-      widget.exercicio.execucao = url;
-      widget.exercicio.grupoMuscular = grupo;
+      widget.exercicio.observacoes = descricao;
+      widget.exercicio.nome = titulo;
+      //widget.exercicio.execucao = url;
+      //widget.exercicio.grupoMuscular = grupo;
       widget.exercicio.series = int.parse(series);
       widget.exercicio.repeticoes = int.parse(repeticoes);
       nomeExercicio = titulo;
@@ -43,13 +44,13 @@ class _DetalhesExercicioState extends State<DetalhesExercicio> {
           return formExercicio(
               onUpdate: _updateExericicio,
               update: true,
-              titulo: widget.exercicio.titulo,
-              descricao: widget.exercicio.descricao,
+              titulo: widget.exercicio.nome,
+              descricao: widget.exercicio.observacoes,
               series: widget.exercicio.series.toString(),
-              repeticoes: widget.exercicio.repeticoes.toString(),
-              url: widget.exercicio.execucao ??
-                  "Não há videos de execução para esse exercicio!",
-              grupo: widget.exercicio.grupoMuscular);
+              repeticoes: widget.exercicio.repeticoes.toString());
+          // url: widget.exercicio.execucao ??
+          //     "Não há videos de execução para esse exercicio!",
+          // grupo: widget.exercicio.grupoMuscular);
         });
   }
 
@@ -78,7 +79,7 @@ class _DetalhesExercicioState extends State<DetalhesExercicio> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              widget.exercicio.titulo,
+              widget.exercicio.nome,
               style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 16),
@@ -88,7 +89,7 @@ class _DetalhesExercicioState extends State<DetalhesExercicio> {
             ),
             SizedBox(height: 8),
             Text(
-              widget.exercicio.descricao,
+              widget.exercicio.observacoes,
               style: TextStyle(fontSize: 16),
             ),
             SizedBox(height: 16),
@@ -96,19 +97,19 @@ class _DetalhesExercicioState extends State<DetalhesExercicio> {
               'Grupo Muscular:',
               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 8),
-            Text(
-              widget.exercicio.grupoMuscular,
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 16),
-            if (widget.exercicio.execucao != null)
-              Image.network(
-                widget.exercicio.execucao!,
-                width: double.infinity,
-                height: 200,
-                fit: BoxFit.cover,
-              ),
+            // SizedBox(height: 8),
+            // Text(
+            //   widget.exercicio.grupoMuscular,
+            //   style: TextStyle(fontSize: 16),
+            // ),
+            // SizedBox(height: 16),
+            // if (widget.exercicio.execucao != null)
+            //   Image.network(
+            //     widget.exercicio.execucao!,
+            //     width: double.infinity,
+            //     height: 200,
+            //     fit: BoxFit.cover,
+            //   ),
             SizedBox(height: 16),
           ],
         ),
