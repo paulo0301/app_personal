@@ -18,19 +18,21 @@ class AlunoController {
     final response = await http.get(Uri.parse(baseUrl));
 
     List<Aluno> alunos = [];
-
+    print(response.statusCode);
     if (response.statusCode == 200) {
       final Map<String, dynamic> jbody = jsonDecode(response.body);
-
+      // print(jbody);
       jbody.forEach((key, value) {
-        Aluno aluno = new Aluno(
+        print('key: ' + key.toString() + '/ value: ' + value.toString());
+        Aluno aluno = Aluno(
             id: value['id'],
             nome: value['nome'],
             email: value['email'],
             dataNascimento: DateTime.parse(value['dataNascimento']),
             fichaTreino: FichaDeTreino.fromJson(value['fichaTreino']),
-            avatarPath: value['avatarPath']);
+            avatarPath: null);
 
+        // print(aluno);
         alunos.add(aluno);
       });
 
@@ -154,9 +156,10 @@ class AlunoController {
           AvaliacaoFisica avaliacao = new AvaliacaoFisica(
             id: element['id'],
             titulo: element['titulo'],
-            alunoId: element['aluno'], // Ajuste conforme sua estrutura de Aluno
+            // alunoId: element['aluno'], // Ajuste conforme sua estrutura de Aluno
             peso: element['peso'],
             altura: element['altura'],
+            data: element['data'],
             medidaBraco:
                 element['medidaBraco'] ?? 0.0, // Ajuste conforme necessário
             medidaCintura:

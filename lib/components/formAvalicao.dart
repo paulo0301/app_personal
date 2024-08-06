@@ -10,6 +10,7 @@ class formAvaliacao extends StatefulWidget {
       String descricao,
       double altura,
       double peso,
+      DateTime data,
       String? observacoes,
       double? medidaCintura,
       double? medidaBraco,
@@ -41,13 +42,14 @@ class _formAvaliacaoState extends State<formAvaliacao> {
     String descricao = _descricaoController.text;
     double altura = double.parse(_alturaController.text);
     double peso = double.parse(_pesoController.text);
+    DateTime data = DateTime.now();
     String observacoes = _observacoesController.text;
     double? medidaCintura = double.parse(_medidaCinturaController.text);
     double? medidaBraco = double.parse(_medidaBracoController.text);
     double? medidaPeito = double.parse(_medidaPeitoController.text);
     double? medidaPerda = double.parse(_medidaPerdaController.text);
 
-    widget.onSubmit(descricao, altura, peso, observacoes, medidaCintura,
+    widget.onSubmit(descricao, altura, peso, data, observacoes, medidaCintura,
         medidaBraco, medidaPerda, medidaPeito);
     Navigator.pop(context);
   }

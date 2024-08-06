@@ -8,7 +8,7 @@ import '../models/exercicio.dart';
 class TreinoController {
   TreinoController();
 
-  static const String baseUrl = 'http://192.168.1.104:8080/personal/api/treino';
+  static const String baseUrl = 'http://192.168.0.14:8080/personal/api/treino';
 
   static Future<Treino> addTreino(Treino treino) async {
     List<int> ids = [];

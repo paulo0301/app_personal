@@ -25,9 +25,9 @@ class _AvaliacoesFisicaState extends State<AvaliacoesFisica> {
     _listAvaliacoes = Avaliacaocontroller.getAvaliacoesAluno(widget.aluno.id);
   }
 
-  _updateScreen(){
+  _updateScreen() {
     setState(() {
-    _listAvaliacoes = Avaliacaocontroller.getAvaliacoesAluno(widget.aluno.id);
+      _listAvaliacoes = Avaliacaocontroller.getAvaliacoesAluno(widget.aluno.id);
     });
   }
 
@@ -35,6 +35,7 @@ class _AvaliacoesFisicaState extends State<AvaliacoesFisica> {
       String titulo,
       double altura,
       double peso,
+      DateTime data,
       String? observacoes,
       double? medidaCintura,
       double? medidaBraco,
@@ -43,7 +44,7 @@ class _AvaliacoesFisicaState extends State<AvaliacoesFisica> {
     AvaliacaoFisica avaliacao = AvaliacaoFisica(
       id: Random().nextInt(9999),
       titulo: titulo,
-      alunoId:( widget.aluno.id).toString(),
+      data: data,
       peso: peso,
       altura: altura,
       observacoes: observacoes,
@@ -76,7 +77,8 @@ class _AvaliacoesFisicaState extends State<AvaliacoesFisica> {
       body: FutureBuilder<List<AvaliacaoFisica>>(
         future: _listAvaliacoes,
         builder: (context, snapshot) {
-          if (snapshot.hasError || (snapshot.hasData && snapshot.data!.isEmpty)) {
+          if (snapshot.hasError ||
+              (snapshot.hasData && snapshot.data!.isEmpty)) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -104,7 +106,7 @@ class _AvaliacoesFisicaState extends State<AvaliacoesFisica> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: ()=>{_openFormAvalicao(context)},
+        onPressed: () => {_openFormAvalicao(context)},
         child: Icon(Icons.add),
       ),
     );

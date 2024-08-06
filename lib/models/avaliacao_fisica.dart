@@ -3,8 +3,8 @@ import 'package:app_personal/models/aluno.dart';
 class AvaliacaoFisica {
   int id;
   String titulo;
-  DateTime data = DateTime.now();
-  String alunoId;
+  DateTime data;
+  // String alunoId;
   double altura;
   double peso;
   double? imc;
@@ -17,9 +17,10 @@ class AvaliacaoFisica {
   AvaliacaoFisica({
     required this.id,
     required this.titulo,
-    required this.alunoId,
+    // required this.alunoId,
     required this.peso,
     required this.altura,
+    required this.data,
     this.observacoes,
     this.medidaCintura,
     this.medidaBraco,
@@ -36,8 +37,8 @@ class AvaliacaoFisica {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'titulo':titulo,
-      'aluno': int.parse(alunoId),
+      'titulo': titulo,
+      // 'aluno': int.parse(alunoId),
       'peso': peso,
       'altura': altura,
       'observacoes': observacoes != null ? observacoes : '',
@@ -47,19 +48,19 @@ class AvaliacaoFisica {
       'medidaPerda': medidaPerda != null ? medidaPerda : '',
     };
   }
+
   factory AvaliacaoFisica.fromJson(Map<String, dynamic> json) {
+    print(json);
     return AvaliacaoFisica(
       id: json['id'],
       titulo: json['titulo'],
-      alunoId: json['alunoId'],
-      peso: json['peso'].toDouble(),  // Certifique-se de converter para double
-      altura: json['altura'].toDouble(),
-      observacoes: json['observacoes'],
+      data: DateTime.parse(json['data'].toString()),
+      peso: json['alunoPeso'].toDouble(),
+      altura: json['alunoAltura'].toDouble(),
       medidaCintura: json['medidaCintura']?.toDouble(),
       medidaBraco: json['medidaBraco']?.toDouble(),
       medidaPeito: json['medidaPeito']?.toDouble(),
-      medidaPerda: json['medidaPerda']?.toDouble(),
-      imc: json['imc']?.toDouble(),  // Isso é opcional, se o IMC é retornado pelo servidor
-    )..calcularImc();  // Opcional: calcular IMC após deserialização
+      medidaPerda: json['medidaPerna']?.toDouble(),
+    )..calcularImc(); // Opcional: calcular IMC após deserialização
   }
 }
