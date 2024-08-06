@@ -10,7 +10,7 @@ class ExercicioController {
   ExercicioController();
 
   static const String baseUrl =
-      'http://192.168.0.14:8080/personal/api/exercicio';
+      'http://192.168.1.104:8080/personal/api/exercicio';
 
   static Future<Exercicio> addExercicio(Exercicio exercicio) async {
     final response = await http.post(Uri.parse(baseUrl),

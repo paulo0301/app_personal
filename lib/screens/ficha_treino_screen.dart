@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:app_personal/components/formTreino.dart';
 import 'package:app_personal/controller/AlunoController.dart';
+import 'package:app_personal/controller/FichaTreinoController.dart';
 import 'package:app_personal/controller/TreinoController.dart';
 import 'package:app_personal/models/ficha_treino.dart';
 import 'package:app_personal/screens/dados_treino.dart';
@@ -12,9 +13,9 @@ import '../models/exercicio.dart';
 import '../models/treino.dart';
 
 class FichaTreino extends StatefulWidget {
-  FichaDeTreino fichaDeTreino;
+  //FichaDeTreino fichaDeTreino;
   Aluno aluno;
-  FichaTreino({required this.fichaDeTreino, required this.aluno});
+  FichaTreino({required this.aluno});
 
   @override
   State<FichaTreino> createState() => _FichaTreinoState();
@@ -25,27 +26,29 @@ class _FichaTreinoState extends State<FichaTreino> {
   @override
   void initState() {
     super.initState();
-    treinos = TreinoController.getTreino(widget.fichaDeTreino.id);
+    treinos = TreinoController.getTreino(widget.aluno.fichaTreino.id);
   }
 
   _updateScreen() {
     setState(() {
-      treinos = TreinoController.getTreino(widget.fichaDeTreino.id);
+      treinos = TreinoController.getTreino(widget.aluno.fichaTreino.id);
     });
   }
 
-  _adicionarTreino(
-      String titulo, DateTime vencimento, List<Exercicio> exercicios) {
+  Future<void> _adicionarTreino(String titulo, DateTime vencimento, List<Exercicio> exercicios) async{
+    print("ID DO ALUNO: ${widget.aluno.id}");
+    FichaDeTreino ficha = await Fichatreinocontroller.get(widget.aluno.id);
     Treino treino = new Treino(
         id: Random().nextInt(50),
         titulo: titulo,
         data_vencimento: vencimento,
         exercicios: exercicios,
-        ficha_treino: widget.fichaDeTreino.id);
-    List<Treino> treinos = widget.aluno.fichaTreino.treinos;
-    treinos.add(treino);
-    widget.aluno.fichaTreino.treinos = treinos;
-    AlunoController.updateAluno(widget.aluno);
+        ficha_treino: ficha.id);
+    TreinoController.addTreino(treino);
+    //List<Treino> treinos = widget.aluno.fichaTreino.treinos;
+    //treinos.add(treino);
+    //widget.aluno.fichaTreino.treinos = treinos;
+    //AlunoController.updateAluno(widget.aluno);
     _updateScreen();
   }
 
@@ -81,8 +84,8 @@ class _FichaTreinoState extends State<FichaTreino> {
       body: FutureBuilder<List<Treino>>(
         future: treinos,
         builder: (context, snapshot) {
-          if (snapshot.hasError ||
-              (snapshot.hasData && snapshot.data!.isEmpty)) {
+          if (snapshot.hasError) {
+            print("ERRO: ${snapshot.error}");
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -98,6 +101,10 @@ class _FichaTreinoState extends State<FichaTreino> {
                   ),
                 ],
               ),
+            );
+          }else if (snapshot.hasData && snapshot.data!.isEmpty){
+            return Center(
+              child: Text("Não há exercícios"),
             );
           } else if (snapshot.hasData) {
             return ListView.builder(

@@ -9,7 +9,7 @@ class Avaliacaocontroller {
   static int idAluno = 2;
 
   static const baseUrl =
-      'http://192.168.0.14:8080/personal/api/avaliacao_fisica';
+      'http://192.168.1.104:8080/personal/api/avaliacao_fisica';
 
   static Future<AvaliacaoFisica> addAvaliacao(AvaliacaoFisica avaliacao) async {
     final response = await http.post(Uri.parse(baseUrl),

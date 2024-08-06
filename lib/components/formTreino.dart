@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:math';
 
 import 'package:app_personal/controller/ExercicioController.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
@@ -19,6 +20,7 @@ class FormTreino extends StatefulWidget {
 
 class _FormTreinoState extends State<FormTreino> {
   TextEditingController _nomeController = TextEditingController();
+  TextEditingController _idFicha = TextEditingController();
   DateTime _dataSelecionada = DateTime.now();
   List<Exercicio> exercicios = [];
   late Future<List<Exercicio>> lst_future;
@@ -103,6 +105,12 @@ class _FormTreinoState extends State<FormTreino> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            const Text("Id da ficha de treino: "),
+            TextField(
+              controller: _idFicha,
+              keyboardType: TextInputType.number,
+            ),
+            SizedBox(height: 20),
             const Text("Título: "),
             TextField(
               controller: _nomeController,

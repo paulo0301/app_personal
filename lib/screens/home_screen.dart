@@ -6,8 +6,10 @@ import 'dart:math';
 import 'package:app_personal/components/form_aluno.dart';
 import 'package:app_personal/components/main_drawer.dart';
 import 'package:app_personal/controller/AlunoController.dart';
+import 'package:app_personal/controller/FichaTreinoController.dart';
 import 'package:app_personal/models/aluno.dart';
 import 'package:app_personal/models/ficha_treino.dart';
+import 'package:app_personal/screens/ficha_treino_screen.dart';
 import 'package:app_personal/screens/tabs_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
@@ -70,11 +72,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   _addAluno(String nome, String email, DateTime dataNascimento, File? avatar) {
-    int id = Random().nextInt(9999);
+    int idAluno = Random().nextInt(9999);
     FichaDeTreino fichaDeTreino =
-        FichaDeTreino(id: Random().nextInt(99), alunoId: id);
+        FichaDeTreino(id: Random().nextInt(99), alunoId: idAluno, titulo: "Ficha de treino");
+    Fichatreinocontroller.addFIcha(fichaDeTreino);
     Aluno newAluno = Aluno(
-        id: Random().nextInt(9999),
+        id: idAluno,
         nome: nome,
         email: email,
         dataNascimento: dataNascimento,
