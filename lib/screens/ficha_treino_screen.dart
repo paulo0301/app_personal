@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:app_personal/components/formTreino.dart';
 import 'package:app_personal/controller/AlunoController.dart';
+import 'package:app_personal/controller/TreinoController.dart';
 import 'package:app_personal/models/ficha_treino.dart';
 import 'package:app_personal/screens/dados_treino.dart';
 import 'package:flutter/material.dart';
@@ -24,22 +25,23 @@ class _FichaTreinoState extends State<FichaTreino> {
   @override
   void initState() {
     super.initState();
-    treinos = AlunoController.getTreinos(widget.aluno.id);
+    treinos = TreinoController.getTreino(widget.fichaDeTreino.id);
   }
 
-  _updateScreen(){
+  _updateScreen() {
     setState(() {
-      treinos = AlunoController.getTreinos(widget.aluno.id);
+      treinos = TreinoController.getTreino(widget.fichaDeTreino.id);
     });
   }
 
   _adicionarTreino(
-      String titulo, String grupoMuscular, List<Exercicio> exercicios) {
+      String titulo, DateTime vencimento, List<Exercicio> exercicios) {
     Treino treino = new Treino(
-        id: ('ft${Random().nextInt(9999)}'),
+        id: Random().nextInt(50),
         titulo: titulo,
-        grupoMuscular: grupoMuscular,
-        exercicios: exercicios);
+        data_vencimento: vencimento,
+        exercicios: exercicios,
+        ficha_treino: widget.fichaDeTreino.id);
     List<Treino> treinos = widget.aluno.fichaTreino.treinos;
     treinos.add(treino);
     widget.aluno.fichaTreino.treinos = treinos;
@@ -49,7 +51,7 @@ class _FichaTreinoState extends State<FichaTreino> {
 
   _openFormTreino(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (_) {
-      return formTreino(onSubmit: _adicionarTreino);
+      return FormTreino(onSubmit: _adicionarTreino);
     }));
   }
 
@@ -67,7 +69,7 @@ class _FichaTreinoState extends State<FichaTreino> {
         },
         //leading: Icon(Icons.list_alt),
         title: Text(treino.titulo),
-        subtitle: Text("Grupos musculares: ${treino.grupoMuscular}"),
+        subtitle: Text("Data de vencimento: ${treino.data_vencimento}"),
         trailing: Icon(Icons.search),
       ),
     );
@@ -79,7 +81,8 @@ class _FichaTreinoState extends State<FichaTreino> {
       body: FutureBuilder<List<Treino>>(
         future: treinos,
         builder: (context, snapshot) {
-          if (snapshot.hasError || (snapshot.hasData && snapshot.data!.isEmpty)) {
+          if (snapshot.hasError ||
+              (snapshot.hasData && snapshot.data!.isEmpty)) {
             return Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -96,7 +99,7 @@ class _FichaTreinoState extends State<FichaTreino> {
                 ],
               ),
             );
-          }else if (snapshot.hasData) {
+          } else if (snapshot.hasData) {
             return ListView.builder(
               itemCount: snapshot.data!.length,
               itemBuilder: (treino, index) {

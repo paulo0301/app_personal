@@ -1,22 +1,25 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:app_personal/controller/ExercicioController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:intl/intl.dart';
 
 import '../models/exercicio.dart';
 
-class formTreino extends StatefulWidget {
-  Function(String, String, List<Exercicio>) onSubmit;
-  formTreino({required this.onSubmit});
+class FormTreino extends StatefulWidget {
+  final Function(String, DateTime, List<Exercicio>) onSubmit;
+
+  FormTreino({required this.onSubmit});
 
   @override
-  State<formTreino> createState() => _formTreinoState();
+  State<FormTreino> createState() => _FormTreinoState();
 }
 
-class _formTreinoState extends State<formTreino> {
+class _FormTreinoState extends State<FormTreino> {
   TextEditingController _nomeController = TextEditingController();
-  TextEditingController _grupoController = TextEditingController();
+  DateTime _dataSelecionada = DateTime.now();
   List<Exercicio> exercicios = [];
   late Future<List<Exercicio>> lst_future;
   List<bool> _checkes = [];
@@ -42,9 +45,6 @@ class _formTreinoState extends State<formTreino> {
     return Card(
       color: _checkes[index] ? Colors.green.shade500 : Colors.grey.shade300,
       child: ListTile(
-        // leading: exercicio.execucao != null
-        //     ? Image.network(exercicio.execucao!)
-        //     : Icon(Icons.image_not_supported),
         leading: Icon(Icons.image_not_supported),
         title: Text(exercicio.nome),
         subtitle: Text(
@@ -67,8 +67,22 @@ class _formTreinoState extends State<formTreino> {
     );
   }
 
+  _showDatePicker() async {
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: _dataSelecionada,
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2101),
+    );
+    if (pickedDate != null && pickedDate != _dataSelecionada) {
+      setState(() {
+        _dataSelecionada = pickedDate;
+      });
+    }
+  }
+
   _submitForm() {
-    widget.onSubmit(_nomeController.text, _grupoController.text, exercicios);
+    widget.onSubmit(_nomeController.text, _dataSelecionada, exercicios);
   }
 
   @override
@@ -89,14 +103,22 @@ class _formTreinoState extends State<formTreino> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Titulo: "),
+            const Text("Título: "),
             TextField(
               controller: _nomeController,
             ),
             SizedBox(height: 20),
-            const Text("Grupos musculares trabalhados: "),
-            TextField(
-              controller: _grupoController,
+            const Text("Data de vencimento: "),
+            GestureDetector(
+              onTap: _showDatePicker,
+              child: AbsorbPointer(
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: DateFormat('dd/MM/yyyy').format(_dataSelecionada),
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+              ),
             ),
             const Padding(
               padding: EdgeInsets.only(top: 20),

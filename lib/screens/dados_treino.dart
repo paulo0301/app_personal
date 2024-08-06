@@ -15,7 +15,7 @@ class dadosTreino extends StatefulWidget {
 
 class _dadosTreinoState extends State<dadosTreino> {
   String nomeTreino = '';
-  String grupoMuscular = '';
+  late DateTime dataVencimento;
   List<Exercicio> exercicios = [];
 
   _createExerciciCard(Exercicio exercicio) {
@@ -82,7 +82,7 @@ class _dadosTreinoState extends State<dadosTreino> {
     super.initState();
     nomeTreino = widget.treino.titulo;
     exercicios = widget.treino.exercicios;
-    grupoMuscular = widget.treino.grupoMuscular;
+    dataVencimento = widget.treino.data_vencimento;
   }
 
   @override
@@ -104,7 +104,7 @@ class _dadosTreinoState extends State<dadosTreino> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Grupos musculares: ${grupoMuscular}",
+              Text("Data de vencimento: ${dataVencimento}",
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
               Text("${exercicios.length} Exercícios",
                   style:

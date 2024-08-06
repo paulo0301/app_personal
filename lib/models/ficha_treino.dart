@@ -2,7 +2,7 @@ import 'package:app_personal/models/aluno.dart';
 import 'package:app_personal/models/treino.dart';
 
 class FichaDeTreino {
-  String id;
+  int id;
   final int alunoId;
   List<Treino> treinos = [];
 

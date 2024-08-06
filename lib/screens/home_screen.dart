@@ -72,7 +72,7 @@ class _HomePageState extends State<HomePage> {
   _addAluno(String nome, String email, DateTime dataNascimento, File? avatar) {
     int id = Random().nextInt(9999);
     FichaDeTreino fichaDeTreino =
-        FichaDeTreino(id: 'TESTE', alunoId: id);
+        FichaDeTreino(id: Random().nextInt(99), alunoId: id);
     Aluno newAluno = Aluno(
         id: Random().nextInt(9999),
         nome: nome,

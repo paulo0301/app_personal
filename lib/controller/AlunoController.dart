@@ -24,7 +24,7 @@ class AlunoController {
 
       jbody.forEach((key, value) {
         Aluno aluno = new Aluno(
-            id: int.parse(key),
+            id: value['id'],
             nome: value['nome'],
             email: value['email'],
             dataNascimento: DateTime.parse(value['dataNascimento']),
@@ -102,42 +102,42 @@ class AlunoController {
     throw Exception("Não foi possível deletar o aluno!");
   }
 
-  static Future<List<Treino>> getTreinos(int id) async {
-    final response = await http.get(Uri.parse(
-        'https://personal-app-90b28-default-rtdb.firebaseio.com/aluno/$id/fichaTreino/treinos.json'));
+  // static Future<List<Treino>> getTreinos(int id) async {
+  //   final response = await http.get(Uri.parse(
+  //       'https://personal-app-90b28-default-rtdb.firebaseio.com/aluno/$id/fichaTreino/treinos.json'));
 
-    List<Treino> treinos = [];
+  //   List<Treino> treinos = [];
 
-    if (response.statusCode == 200) {
-      final List<dynamic> jbody = jsonDecode(response.body);
+  //   if (response.statusCode == 200) {
+  //     final List<dynamic> jbody = jsonDecode(response.body);
 
-      jbody.forEach((value) {
-        List<Exercicio> exercicios = [];
-        if (value['exercicios'] != null) {
-          value['exercicios'].forEach((exercicio) {
-            Exercicio exe = new Exercicio(
-                id: exercicio.id,
-                nome: exercicio['nome'],
-                series: exercicio['series'],
-                repeticoes: exercicio['repeticoes'],
-                observacoes: exercicio['observacoes']);
-            //grupoMuscular: exercicio['grupoMuscular']);
-            exercicios.add(exe);
-          });
-        }
-        Treino treino = new Treino(
-            id: value['id'],
-            titulo: value['titulo'],
-            exercicios: exercicios,
-            grupoMuscular: value['grupoMuscular']);
-        treinos.add(treino);
-      });
+  //     jbody.forEach((value) {
+  //       List<Exercicio> exercicios = [];
+  //       if (value['exercicios'] != null) {
+  //         value['exercicios'].forEach((exercicio) {
+  //           Exercicio exe = new Exercicio(
+  //               id: exercicio.id,
+  //               nome: exercicio['nome'],
+  //               series: exercicio['series'],
+  //               repeticoes: exercicio['repeticoes'],
+  //               observacoes: exercicio['observacoes']);
+  //           //grupoMuscular: exercicio['grupoMuscular']);
+  //           exercicios.add(exe);
+  //         });
+  //       }
+  //       Treino treino = new Treino(
+  //           id: value['id'],
+  //           titulo: value['titulo'],
+  //           exercicios: exercicios,
+  //           grupoMuscular: value['grupoMuscular']);
+  //       treinos.add(treino);
+  //     });
 
-      return treinos;
-    }
+  //     return treinos;
+  //   }
 
-    throw Exception("Erro: não foi possível recuperar os treinos do aluno!");
-  }
+  //   throw Exception("Erro: não foi possível recuperar os treinos do aluno!");
+  // }
 
   static Future<List<AvaliacaoFisica>> getAvalicaoes(int id) async {
     final response = await http.get(Uri.parse(
