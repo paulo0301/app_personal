@@ -44,18 +44,16 @@ class TreinoController {
 
 
   static Future<List<Treino>> getTreino(int id) async {
-    final response = await http.get(Uri.parse(baseUrl));
+    final response = await http.get(Uri.parse('http://192.168.1.104:8080/personal/api/treino/getTreinoFicha/$id'));
     print("Entro no método");
     print("RESPOSTA: ${response.statusCode}");
-
+print("BODY: ${response.body}");
 
     if (response.statusCode == 200) {
       List<dynamic> jbody = jsonDecode(response.body);
       List<Treino> treinos =
           jbody.map((treino) => Treino.fromJson(treino)).toList();
-      List<Treino> treinos_aluno =
-          treinos.where((treino) => treino.id == id).toList();
-      return treinos_aluno;
+      return treinos;
     }
 
     throw Exception("Não foi possível retornar os treinos do alunos");

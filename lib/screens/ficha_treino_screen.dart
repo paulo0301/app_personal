@@ -26,13 +26,23 @@ class _FichaTreinoState extends State<FichaTreino> {
   @override
   void initState() {
     super.initState();
-    treinos = TreinoController.getTreino(widget.aluno.fichaTreino.id);
+    treinos = _loadTreinos();
   }
 
   _updateScreen() {
     setState(() {
-      treinos = TreinoController.getTreino(widget.aluno.fichaTreino.id);
+      treinos = _loadTreinos();
     });
+  }
+
+  Future<List<Treino>> _loadTreinos() async {
+    try {
+      FichaDeTreino ficha = await Fichatreinocontroller.get(widget.aluno.id);
+      return TreinoController.getTreino(ficha.id);
+    } catch (e) {
+      print("Erro ao carregar treinos: $e");
+      return []; // Return an empty list in case of error
+    }
   }
 
   Future<void> _adicionarTreino(String titulo, DateTime vencimento, List<Exercicio> exercicios) async{
@@ -43,7 +53,7 @@ class _FichaTreinoState extends State<FichaTreino> {
         titulo: titulo,
         data_vencimento: vencimento,
         exercicios: exercicios,
-        ficha_treino: ficha.id);
+        ficha_treino: ficha.id);//ficha id esta aqui precisa que esteja la tambme
     TreinoController.addTreino(treino);
     //List<Treino> treinos = widget.aluno.fichaTreino.treinos;
     //treinos.add(treino);

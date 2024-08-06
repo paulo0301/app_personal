@@ -104,7 +104,7 @@ class _dadosTreinoState extends State<dadosTreino> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text("Data de vencimento: ${dataVencimento}",
+              Text(nomeTreino,
                   style: TextStyle(fontSize: 17, fontWeight: FontWeight.bold)),
               Text("${exercicios.length} Exercícios",
                   style:
